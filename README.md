@@ -26,7 +26,7 @@ Membantu pemerintah dalam melakukan edukasi terkait vaksin maupun membantu masya
 |Halaman Autentikasi  | Berisi form login dan register user                 |
 |Home         | Berisi konten intro mengenai Swab.In dan informasi cara penggunaan website                                                     |
 |Daftar Tempat Swab overview (berupa list) |Berisi daftar tempat dan informasi singkat tempat swab, terdapat form (rekomendasi tempat pemeriksaan dari user) |
-|Informasi Detail Tempat Swab|Berisi informasi mengenai nama tempat, lokasi, fasilitas, jam buka tempat swab, dsb   |                                             
+|Informasi Detail Tempat Swab dan List Forum |Berisi informasi mengenai nama tempat, lokasi, fasilitas, jam buka tempat swab, dsb beserta list forum dari tempat swab tersebut   |                                             
 |Forum Diskusi Tempat Swab| Diskusi dan komentar user mengenai tempat swab, user juga bisa saling me-reply komentar satu sama lain |
 |Informasi Vaksin|Informasi tentang vaksin, jenis vaksin, efikasi vaksin, serta efek samping vaksin|
 |Tentang|About us, contact us, terdapat form saran dan masukan|
