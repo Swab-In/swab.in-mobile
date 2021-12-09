@@ -32,6 +32,9 @@ Membantu pemerintah dalam melakukan edukasi terkait vaksin maupun membantu masya
 |Tentang|About us, contact us, terdapat form saran dan masukan|Modul ini akan mengambil data pesan yang diinput oleh user dari database django melalui JSON untuk ditampilkan di halaman mobile|
 |Artikel| Berisi artikel-artikel terkait covid-19 beserta form berisi komentar| Modul ini akan mengambil data artikel seputar covid-19 dan komentar dari setiap artikel dari database django melalui JSON untuk ditampilkan pada halaman mobile|
 
+**Link Download APK:** <br>
+https://drive.google.com/drive/folders/18-lAYlTCNDIRW9lSRrAOr2GkQ_DkMW-r?usp=sharing
+
 **User Persona** <br>
 Dalam membangun aplikasi Swab.In ini, kami membuat 3 user persona: <br>
 ![](UserPersona/UserPersona_1.png)
