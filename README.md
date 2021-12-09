@@ -29,10 +29,8 @@ Membantu pemerintah dalam melakukan edukasi terkait vaksin maupun membantu masya
 |Informasi Detail Tempat Swab dan List Forum |Berisi informasi mengenai nama tempat, lokasi, fasilitas, jam buka tempat swab, dsb beserta list forum dari tempat swab tersebut  |Modul ini akan mengirim data list forum ke database django dan mengambil data informasi tempat swab dari  database django melalui JSON untuk ditampilkan di halaman mobile|
 |Forum Diskusi Tempat Swab| Diskusi dan komentar user mengenai tempat swab, user juga bisa saling me-reply komentar satu sama lain | |
 |Informasi Vaksin|Informasi tentang vaksin, jenis vaksin, efikasi vaksin, serta efek samping vaksin|Modul ini akan mengambil data Informasi Swab & Vaksin dari database django melalui JSON untuk ditampilkan di halaman mobile. Modul ini juga akan mengirim data pengalaman user saat vaksin atau swab ke database django. |
-|Tentang|About us, contact us, terdapat form saran dan masukan|Modul ini akan mengambil data pesan yang diinput oleh user dari database django melalui JSON untuk ditampilkan di halaman mobile
-
-|
-|Artikel| Berisi artikel-artikel terkait covid-19 beserta form berisi komentar| |
+|Tentang|About us, contact us, terdapat form saran dan masukan|Modul ini akan mengambil data pesan yang diinput oleh user dari database django melalui JSON untuk ditampilkan di halaman mobile|
+|Artikel| Berisi artikel-artikel terkait covid-19 beserta form berisi komentar| - |
 
 **User Persona** <br>
 Dalam membangun aplikasi Swab.In ini, kami membuat 3 user persona: <br>
