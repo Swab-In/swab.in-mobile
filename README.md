@@ -26,7 +26,7 @@ Membantu pemerintah dalam melakukan edukasi terkait vaksin maupun membantu masya
 |Halaman Autentikasi  | Berisi form login dan register user                 |Mengirimkan ajax request dari flutter ke database user django untuk melakukan autentikasi
 
 |
-|Home         | Berisi konten intro mengenai Swab.In dan informasi cara penggunaan website                                                     | - |
+Home         | Berisi konten intro mengenai Swab.In dan informasi cara penggunaan website                                                     | - |
 |Daftar Tempat Swab overview (berupa list) |Berisi daftar tempat dan informasi singkat tempat swab, terdapat form (rekomendasi tempat pemeriksaan dari user) |Modul ini akan mengirim data list tempat/lokasi swab ke django melalui JSON untuk ditampilkan di halaman mobile|
 |Informasi Detail Tempat Swab dan List Forum |Berisi informasi mengenai nama tempat, lokasi, fasilitas, jam buka tempat swab, dsb beserta list forum dari tempat swab tersebut   |                                             Modul ini akan mengirim data list forum ke database django dan mengambil data informasi tempat swab dari  database django melalui JSON untuk ditampilkan di halaman mobile|
 |Forum Diskusi Tempat Swab| Diskusi dan komentar user mengenai tempat swab, user juga bisa saling me-reply komentar satu sama lain | |
