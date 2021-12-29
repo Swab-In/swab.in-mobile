@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'screens/komentar.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -55,7 +55,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return KomentarState(title: "Komentar Momen");
+  }))
+          ,
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
