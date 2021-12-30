@@ -1,4 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/forum/screens/add_forum.dart';
+import 'package:swab_in/screens/forum/screens/list_forum.dart';
+import 'screens/forum/screens/list_lokasi.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +18,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Swab.In'),
+      //  home: const MyHomePage(title: 'Swab.In'),
+      home: const LokasiHomePage(),
+      routes: {
+        ListForumHomePageState.routeName: (context) => ListForumHomePage(),
+        AddForumState.routeName: (context) => AddForum(),
+      },
     );
   }
 }
@@ -55,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => {
+                },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

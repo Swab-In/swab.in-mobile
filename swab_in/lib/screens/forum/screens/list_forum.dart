@@ -1,0 +1,139 @@
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_typing_uninitialized_variables
+import 'dart:convert';
+import 'dart:html';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../models/forum.dart';
+import '../screens/add_forum.dart';
+
+class ListForumHomePage extends StatefulWidget {
+  const ListForumHomePage({Key? key, arguments}) : super(key: key);
+
+  @override
+  ListForumHomePageState createState() => ListForumHomePageState();
+}
+
+class ListForumHomePageState extends State<ListForumHomePage> {
+  static const routeName = '/forum';
+  var args;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   futureForum = fetchForum(args);
+  // }
+
+  Future<List<Forum>> fetchForum() async {
+    args = ModalRoute.of(context)!.settings.arguments;
+    String url = "http://127.0.0.1:8000/forum/json_forum";
+    try {
+      var response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      );
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      List<Forum> result = [];
+      for (var d in data) {
+        if (d["fields"]["post_id"] == args) {
+          Forum forums = Forum(
+              writer: d["fields"]["writer"],
+              image: d["fields"]["image"],
+              title: d["fields"]["title"],
+              post_id: d["fields"]["post_id"],
+              message: d["fields"]["message"]);
+          result.add(forums);
+        }
+      }
+      return result;
+    } catch (error) {
+      print(error);
+      throw Exception("Gagal difetch");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    args = ModalRoute.of(context)!.settings.arguments;
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+          title: Text("Forum")),
+      body: Card(
+        child: 
+        FutureBuilder(
+            future: fetchForum(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                      elevation: 2.0,
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 32, bottom: 16, left: 16, right: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 180.0,
+                                child: Ink.image(
+                                  image: NetworkImage(snapshot.data[index].image),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                                Padding(padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(snapshot.data[index].title,
+                                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                )),
+                                // Text(snapshot.data[index].writer.toString(),
+                                //         style: TextStyle(fontSize: 16),
+                                // ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                        snapshot.data[index].message,
+                                        style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                              ),
+                              ButtonBar(
+                                children: [
+                                  TextButton(
+                                    child: Text('READ MORE',
+                                    style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
+                                    onPressed: () {},
+                                    ),
+                                  ],
+                              )
+                              ],
+                            )
+                          )
+                        );
+                      });
+                    } else {
+                      return Center(
+                        child: Text(
+                      "Loading...",
+                      ),
+                    );
+                    }
+                  }),
+      ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+          onPressed: () {
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (ctx) => AddForum()));
+              Navigator.pushNamed(context, '/add-forum', arguments: args);
+          }),
+    );
+  }
+}
