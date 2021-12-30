@@ -1,27 +1,20 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_typing_uninitialized_variables
 import 'dart:convert';
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:swab_in/screens/forum/screens/list_lokasi.dart';
 import '../models/forum.dart';
-import '../screens/add_forum.dart';
 
 class ListForumHomePage extends StatefulWidget {
   const ListForumHomePage({Key? key, arguments}) : super(key: key);
 
   @override
-  ListForumHomePageState createState() => ListForumHomePageState();
+  ListForumHomePageState createState() => ListForumHomePageState(); 
 }
 
 class ListForumHomePageState extends State<ListForumHomePage> {
   static const routeName = '/forum';
   var args;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   futureForum = fetchForum(args);
-  // }
 
   Future<List<Forum>> fetchForum() async {
     args = ModalRoute.of(context)!.settings.arguments;
@@ -54,6 +47,36 @@ class ListForumHomePageState extends State<ListForumHomePage> {
     }
   }
 
+  Future<List<Post>> fetchDetailLokasi() async {
+    args = ModalRoute.of(context)!.settings.arguments;
+    var url = Uri.parse("http://127.0.0.1:8000/forum/json_lokasi");
+    try {
+      var response = await http.get(
+        url,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      );
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      List<Post> result = [];
+      for (var d in data) {
+        if (d["pk"] == args) {
+          Post posts = Post(
+              lokasi: d["fields"]["lokasi"],
+              detail: d["fields"]["detail"],
+              lokasi_pic: d["fields"]["lokasi_pic"],
+              pk: d["pk"]);
+          result.add(posts);
+        }
+      }
+      return result;
+    } catch (error) {
+      print(error);
+      throw Exception("Gagal difetch");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context)!.settings.arguments;
@@ -61,10 +84,14 @@ class ListForumHomePageState extends State<ListForumHomePage> {
       appBar: AppBar(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
           title: Text("Forum")),
-      body: Card(
-        child: 
-        FutureBuilder(
-            future: fetchForum(),
+      body: Container(
+         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+           child: 
+         Column(
+          children: [
+          FutureBuilder(
+            future: fetchDetailLokasi(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -82,33 +109,21 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                               SizedBox(
                                 height: 180.0,
                                 child: Ink.image(
-                                  image: NetworkImage(snapshot.data[index].image),
+                                  image: NetworkImage(snapshot.data[index].lokasi_pic),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                                 Padding(padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(snapshot.data[index].title,
+                                child: Text(snapshot.data[index].lokasi,
                                         style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                                 )),
-                                // Text(snapshot.data[index].writer.toString(),
-                                //         style: TextStyle(fontSize: 16),
-                                // ),
                               Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                        snapshot.data[index].message,
+                                        snapshot.data[index].detail,
                                         style: Theme.of(context).textTheme.bodyText1,
                                 ),
                               ),
-                              ButtonBar(
-                                children: [
-                                  TextButton(
-                                    child: Text('READ MORE',
-                                    style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
-                                    onPressed: () {},
-                                    ),
-                                  ],
-                              )
                               ],
                             )
                           )
@@ -122,6 +137,77 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                     );
                     }
                   }),
+        
+           Container( 
+              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Forum Diskusi', 
+                style: TextStyle(fontSize: 22, fontWeight:FontWeight.bold),
+                textAlign: TextAlign.left,))),
+
+          FutureBuilder(
+              future: fetchForum(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                    return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                          elevation: 2.0,
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 32, bottom: 16, left: 16, right: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 180.0,
+                                    child: Ink.image(
+                                      image: NetworkImage(snapshot.data[index].image),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                    Padding(padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(snapshot.data[index].title,
+                                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                    )),
+                                    // Text(snapshot.data[index].writer.toString(),
+                                    //         style: TextStyle(fontSize: 16),
+                                    // ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                            snapshot.data[index].message,
+                                            style: Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                  ),
+                                  ButtonBar(
+                                    children: [
+                                      TextButton(
+                                        child: Text('READ MORE',
+                                        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
+                                        onPressed: () {},
+                                        ),
+                                      ],
+                                  )
+                                  ],
+                                )
+                              )
+                            );
+                          });
+                      } else {
+                        return Center(
+                          child: Text(
+                        "Loading...", style: TextStyle(fontSize: 18),
+                        ),
+                      );
+                      }
+                    }),
+          ],
+         ),
+         ),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
