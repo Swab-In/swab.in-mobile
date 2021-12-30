@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:swab_in/screens/forum/screens/add_forum.dart';
-import 'package:swab_in/screens/forum/screens/list_forum.dart';
-import 'screens/forum/screens/list_lokasi.dart';
+import 'package:swab_in/screens/add_forum.dart';
+import 'package:swab_in/screens/list_forum.dart';
+import 'screens/list_lokasi.dart';
 
 void main() {
   runApp(const MyApp());

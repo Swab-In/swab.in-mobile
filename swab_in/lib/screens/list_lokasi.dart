@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../models/forum.dart';
+import '../models/lokasi.dart';
 
 class LokasiHomePage extends StatefulWidget {
   static const routeName = '/forum';

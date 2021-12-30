@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:swab_in/screens/forum/models/forum.dart';
+import '../models/forum.dart';
 
 class AddForum extends StatefulWidget {
   const AddForum({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class AddForumState extends State<AddForum> {
           var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
               body: jsonEncode({
-              'writer': 1, // ini gimana ngambil usernya 
+              'writer': 'swabin', // ini harusnya get user yg login
               'title': titleContoller.text,
               'message': messageContoller.text,
               'image': imageContoller.text,
@@ -119,10 +119,10 @@ class AddForumState extends State<AddForum> {
                       border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0)),
                     ),
-                      onChanged: (String? value) {
-                      setState(() {
-                        value!;
-                      });
+                     validator: (String? value) {
+                      return (value == null || value.isEmpty)
+                          ? 'URL thumbnail tidak boleh kosong.'
+                          : null;
                     },
                   ),
                 ),
@@ -138,18 +138,9 @@ class AddForumState extends State<AddForum> {
                           backgroundColor: MaterialStateProperty.all(Colors.white),
                     ),
                     onPressed: () {
-                    if (messageContoller.text == '' ||
-                        titleContoller.text == '' ||
-                        imageContoller.text == '') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Data tidak lengkap, mohon lengkapi data',
-                          ),
-                        ),
-                      );
-                    } else {
+                    if (_formKey.currentState?.validate() ?? true) {
                       createForum();
+                      Navigator.pushReplacementNamed(context, '/forum', arguments: args);
                     }
                     }
                   ),

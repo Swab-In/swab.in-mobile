@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:swab_in/screens/forum/screens/list_lokasi.dart';
+import '../models/lokasi.dart';
 import '../models/forum.dart';
 
 class ListForumHomePage extends StatefulWidget {
@@ -173,10 +173,11 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                                     child: Text(snapshot.data[index].title,
                                             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                                     )),
-                                    // Text(snapshot.data[index].writer.toString(),
-                                    //         style: TextStyle(fontSize: 16),
-                                    // ),
+                                    Text('Ditulis oleh: ' + snapshot.data[index].writer,
+                                            style: TextStyle(fontSize: 14),
+                                    ),
                                   Container(
+                                    padding: const EdgeInsets.only(top: 15.0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                             snapshot.data[index].message,
@@ -216,8 +217,6 @@ class ListForumHomePageState extends State<ListForumHomePage> {
             size: 30,
           ),
           onPressed: () {
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (ctx) => AddForum()));
               Navigator.pushNamed(context, '/add-forum', arguments: args);
           }),
     );
