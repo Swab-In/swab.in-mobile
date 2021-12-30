@@ -75,7 +75,20 @@ class KomentarScreen extends State<KomentarState> {
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset('assets/images/folklore.jpg'),
+                  child: FutureBuilder<List<Forum>>(
+                    future: futureForum,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Image.network(snapshot.data![0].imageUrl);
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+
+                      // By default, show a loading spinner.
+                    },
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 25, bottom: 5),
@@ -111,17 +124,20 @@ class KomentarScreen extends State<KomentarState> {
                             margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: ElevatedButton(
                                 onPressed: () async {
-                                  await http.post(
+                                  final response = await http.post(
                                     Uri.parse(
                                         'http://10.0.2.2:8000/forum/komentar_post'),
                                     headers: <String, String>{
                                       'Content-Type':
                                           'application/json; charset=UTF-8',
                                     },
-                                    body: jsonEncode(<String, String>{
-                                      'title': komentarController.text,
+                                    body: jsonEncode(<String, dynamic>{
+                                      'komentar': komentarController.text,
+                                      'forumId': 1,
+                                      'userId': 1
                                     }),
                                   );
+                                  print(response.body);
                                 },
                                 child: Container(
                                   padding: EdgeInsets.fromLTRB(5, 7, 5, 7),
@@ -159,20 +175,6 @@ class KomentarScreen extends State<KomentarState> {
                             Text("Bener banget"),
                           ]),
                       SizedBox(height: 15),
-                      FutureBuilder<List<Forum>>(
-                        future: futureForum,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Image.network(snapshot.data![0].imageUrl);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-
-                          // By default, show a loading spinner.
-                        },
-                      )
                     ],
                   ),
                 ),
