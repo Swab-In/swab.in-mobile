@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/artikel.dart';
 import 'package:swab_in/screens/detail_swab_screen.dart';
 
 import '../widgets/main_drawer.dart';
@@ -25,8 +26,9 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (ctx) => MainScreen(),
         InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
-        DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),  
-        AddExperienceScreen.routeName: (context) => const AddExperienceScreen(),              
+        DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
+        AddExperienceScreen.routeName: (context) => const AddExperienceScreen(),
+        ArtikelScreen.routeName: (context) => const ArtikelScreen(),
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);
