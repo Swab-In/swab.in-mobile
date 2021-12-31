@@ -141,7 +141,7 @@ Future<List<Post>> fetchPost() async {
   return result;
 }
 
-// ================================ALT================================
+// ========================================================================
 // class HomePage extends StatefulWidget {
 //   const HomePage({Key? key}) : super(key: key);
 
