@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/aboutus.dart';
 import 'package:swab_in/screens/main_screen.dart';
 
 import '../screens/info_swab_screen.dart';
@@ -48,10 +49,11 @@ class MainDrawer extends StatelessWidget {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
           buildListTile('Informasi', Icons.menu_book, () {
-            Navigator.of(context).pushReplacementNamed(InfoSwabScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(InfoSwabScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacementNamed(AboutUsPage.routeName);
           }),
           buildListTile('Lokasi', Icons.place, () {
             Navigator.of(context).pushReplacementNamed('/');

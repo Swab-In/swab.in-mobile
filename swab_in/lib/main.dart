@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/aboutus.dart';
+import 'package:swab_in/screens/contactus.dart';
 import 'package:swab_in/screens/detail_swab_screen.dart';
 
 import '../widgets/main_drawer.dart';
@@ -27,6 +29,8 @@ class _MyAppState extends State<MyApp> {
         InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
         DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
         AddExperienceScreen.routeName: (context) => const AddExperienceScreen(),
+        AboutUsPage.routeName: (context) => const AboutUsPage(),
+        FormScreen.routeName: (context) => const FormScreen(),
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);
