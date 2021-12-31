@@ -3,99 +3,52 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
 import '../widgets/main_drawer.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   static const routeName = '/home';
 
   MainScreen();
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  int _counter = 0;
-  void _incrementCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    prefs.setInt('counter', _counter);
-
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Swab.In'),
       ),
       drawer: MainDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Kelompok B10',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // A button that navigates to a named route.
-                  // The named route extracts the arguments
-                  // by itself.
-                  ElevatedButton(
-                    onPressed: () {
-                      // When the user taps the button,
-                      // navigate to a named route and
-                      // provide the arguments as an optional
-                      // parameter.
-                      Navigator.pushNamed(
-                        context,
-                        KomentarScreen.routeName,
-                        arguments: KomentarArguments(title: "asu", pk: '2'),
-                      );
-                    },
-                    child: const Text(
-                        'Navigate to screen that extracts arguments'),
-                  ),
-                  // A button that navigates to a named route.
-                  // For this route, extract the arguments in
-                  // the onGenerateRoute function and pass them
-                  // to the screen.
-                  ElevatedButton(
-                    onPressed: () {
-                      // When the user taps the button, navigate
-                      // to a named route and provide the arguments
-                      // as an optional parameter.
-                      Navigator.pushNamed(
-                        context,
-                        KomentarScreen.routeName,
-                        arguments: KomentarArguments(
-                          title: "test",
-                          pk: '1',
-                        ),
-                      );
-                    },
-                    child: const Text(
-                        'Navigate to a named that accepts arguments'),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "SELAMAT DATANG DI SWAB.IN!",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat-Regular",
+                    color: Color(0xFF111111)),
               ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+              RichText(
+                text: TextSpan(
+                  text: "Tempat Informasi Swab dan Vaksin Kesayanganmu",
+                  style: TextStyle(fontSize: 15, color: Color(0xFF8591B0),
+                ),
+                ),
+              ),  
+              SizedBox(
+                height: 32,
+              ),
+              Center(
+                child: Image.network("assets/logo.png", scale: 0.75),
+              ),
+              SizedBox(
+                height: 30,
+              )
+            ],
+          ),
+        ))
+      )
     );
   }
 }
