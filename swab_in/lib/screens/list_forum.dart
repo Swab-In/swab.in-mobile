@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:swab_in/widgets/main_drawer.dart';
 import '../models/lokasi.dart';
 import '../models/forum.dart';
 
@@ -84,6 +85,7 @@ class ListForumHomePageState extends State<ListForumHomePage> {
       appBar: AppBar(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
           title: Text("Forum")),
+      drawer: MainDrawer(),
       body: Container(
          child: SingleChildScrollView(
           scrollDirection: Axis.vertical,

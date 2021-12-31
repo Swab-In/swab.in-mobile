@@ -2,17 +2,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:swab_in/widgets/main_drawer.dart';
 import '../models/lokasi.dart';
 
 class LokasiHomePage extends StatefulWidget {
-  static const routeName = '/forum';
+  static const routeName = '/lokasi';
   const LokasiHomePage({Key? key}) : super(key: key);
 
   @override
-  _LokasiHomePageState createState() => _LokasiHomePageState();
+  LokasiHomePageState createState() => LokasiHomePageState();
 }
 
-class _LokasiHomePageState extends State<LokasiHomePage> {
+class LokasiHomePageState extends State<LokasiHomePage> {
   late Future futurePost;
  
   @override
@@ -28,6 +29,7 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
       appBar: AppBar(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
           title: Text("Lokasi")),
+      drawer: MainDrawer(),
       body: Card(
         child: 
         FutureBuilder(

@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/list_forum.dart';
+import 'package:swab_in/screens/list_lokasi.dart';
 import '../models/forum.dart';
 
 class AddForum extends StatefulWidget {
@@ -39,7 +41,7 @@ class AddForumState extends State<AddForum> {
           var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
               body: jsonEncode({
-              'writer': 'swabin', // ini harusnya get user yg login
+              'writer': 'swabdev', // ini harusnya get user yg login
               'title': titleContoller.text,
               'message': messageContoller.text,
               'image': imageContoller.text,
@@ -50,6 +52,17 @@ class AddForumState extends State<AddForum> {
         }
       }
     }
+
+    Navigator.of(context).pop(
+      ListForumHomePageState.routeName   
+    );
+    Navigator.of(context).pop(
+      LokasiHomePage.routeName    
+    );
+    Navigator.of(context).pushNamed(
+      ListForumHomePageState.routeName,
+      arguments: args,
+    );
   }
 
   @override
@@ -140,7 +153,6 @@ class AddForumState extends State<AddForum> {
                     onPressed: () {
                     if (_formKey.currentState?.validate() ?? true) {
                       createForum();
-                      Navigator.pushReplacementNamed(context, '/forum', arguments: args);
                     }
                     }
                   ),
