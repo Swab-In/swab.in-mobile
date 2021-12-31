@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
 
 import '../screens/info_swab_screen.dart';
@@ -58,6 +59,9 @@ class MainDrawer extends StatelessWidget {
           }),
           buildListTile('Artikel', Icons.article, () {
             Navigator.of(context).pushReplacementNamed('/');
+          }),
+          buildListTile('Login', Icons.login, () {
+            Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           }),
         ],
       ),
