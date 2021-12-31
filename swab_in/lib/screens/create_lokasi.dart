@@ -14,7 +14,6 @@ class CreateLokasi extends StatefulWidget {
 class _CreateLokasiState extends State<CreateLokasi> {
   final _formKey = GlobalKey<FormState>();
   late Post _post;
-  var args;
   static const routeName = '/add-forum';
 
   TextEditingController authorController = TextEditingController();
@@ -32,23 +31,21 @@ class _CreateLokasiState extends State<CreateLokasi> {
     );
     var data = jsonDecode(utf8.decode(response.bodyBytes));
     for (var d in data) {
-      if (d["pk"] == args) {
-        no = d["pk"];
-        try {
-          var url = "http://127.0.0.1:8000/lokasi/add_lokasi";
-          var response = await http.post(Uri.parse(url),
+      no = d["pk"];
+      try {
+        var url = "http://127.0.0.1:8000/lokasi/add_lokasi";
+        var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
-              body: jsonEncode({
+            body: jsonEncode({
               'author': authorController.text, // ini harusnya get user yg login
               'lokasi': lokasiController.text,
               'detail': detailController.text,
-              'date_posted':  DateFormat.yMMMEd().format(DateTime.now()),
+              'date_posted': DateFormat.yMMMEd().format(DateTime.now()),
               'lokasi_pic': '',
               'post_id': no,
-        }));
-        } catch (error) {
-          print(error);
-        }
+            }));
+      } catch (error) {
+        print(error);
       }
     }
   }
