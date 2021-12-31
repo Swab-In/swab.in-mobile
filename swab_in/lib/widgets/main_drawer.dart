@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
+import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
 
 import '../screens/info_swab_screen.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
+  static const routeName = '/home';
+
+  MainDrawer();
+
+  @override
+  State<MainDrawer> createState() => MainDrawerState();
+}
+
+class MainDrawerState extends State<MainDrawer> {
+  String? user = '';
   Widget buildListTile(String title, IconData icon, VoidCallback handler) {
     return ListTile(
       leading: Icon(
@@ -23,6 +35,13 @@ class MainDrawer extends StatelessWidget {
     );
   }
 
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('user');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,25 +50,26 @@ class MainDrawer extends StatelessWidget {
           Container(
             height: 120,
             width: double.infinity,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             alignment: Alignment.centerLeft,
-            color: Theme.of(context).accentColor,
-            child: Text(
+            color: const Color.fromRGBO(79, 133, 235, 1),
+            child: const Text(
               'Swab.In',
               style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 30,
-                  color: Theme.of(context).primaryColor),
+                  color: Colors.white),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           buildListTile('Home', Icons.home, () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
           buildListTile('Informasi', Icons.menu_book, () {
-            Navigator.of(context).pushReplacementNamed(InfoSwabScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(InfoSwabScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
             Navigator.of(context).pushReplacementNamed('/');
@@ -61,8 +81,15 @@ class MainDrawer extends StatelessWidget {
             Navigator.of(context).pushReplacementNamed('/');
           }),
           buildListTile('Komentar', Icons.comment, () {
-            Navigator.of(context).pushReplacementNamed(KomentarScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(KomentarScreen.routeName);
           }),
+          user == ''
+              ? buildListTile('Login', Icons.login, () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(LoginScreen.routeName);
+                })
+              : Text(user!),
         ],
       ),
     );

@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:swab_in/models/experience.dart';
 import '../models/swab.dart';
 import '../widgets/main_drawer.dart';
 import '../screens/detail_swab_screen.dart';
@@ -114,6 +113,14 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                         //Text(akurasi),
                                       ],
                                     ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 3,
+                                        horizontal: 3,
+                                      ),
+                                      child: Text(snapshot.data[index].akurasi)
+                                    ),
                                     Row(
                                       children: const <Widget>[
                                         Icon(
@@ -122,8 +129,15 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                         SizedBox(
                                           width: 6,
                                         ),
-                                        //Text(snapshot.data[index].prosedur),
                                       ],
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 3,
+                                        horizontal: 3,
+                                      ),
+                                      child: Text(snapshot.data[index].prosedur),
                                     ),
                                     Row(
                                       children: const <Widget>[
@@ -136,9 +150,16 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(top: 16),
-                                          //Text(snapshot.data[index].price.toString()),
                                         )
                                       ],
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 3,
+                                        horizontal: 3,
+                                      ),
+                                      child: Text(snapshot.data[index].price),
                                     ),
                                   ],
                                 ),

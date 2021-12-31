@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/komentar_screen.dart';
 import 'package:swab_in/screens/detail_swab_screen.dart';
+import 'package:swab_in/screens/login_screen.dart';
 
 import '../widgets/main_drawer.dart';
 import './screens/main_screen.dart';
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
         InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
         DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
         AddExperienceScreen.routeName: (context) => const AddExperienceScreen(),
-        
+        LoginScreen.routeName: (context) => const LoginScreen(),
       },
       onGenerateRoute: (settings) {
         if(settings.name == KomentarScreen.routeName  ){

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/main_screen.dart';
 import "string_extension.dart";
 import '../models/komentar.dart';
@@ -31,6 +32,7 @@ List<Komentar> parseKomentar(String responseBody) {
 
   return parsed.map<Komentar>((json) => Komentar.fromJson(json)).toList();
 }
+
 
 Future<List<Komentar>> fetchKomentar(dynamic pk) async {
   final response = await http.get(
@@ -78,6 +80,11 @@ class KomentarState extends State<KomentarScreen> {
   var list = <Widget>[];
   bool firstfetch = true;
 
+  _getState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.get('counter'));
+  }
+
   TextEditingController komentarController = TextEditingController();
 
   @override
@@ -85,6 +92,7 @@ class KomentarState extends State<KomentarScreen> {
     super.initState();
     futureForum = fetchForum(widget.pk);
     futureKomentar = fetchKomentar(widget.pk);
+    _getState();
   }
 
   @override
