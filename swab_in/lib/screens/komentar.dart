@@ -92,6 +92,7 @@ class KomentarScreen extends State<KomentarState> {
   List<Widget> listW = [];
   late Future<List<Forum>> futureForum;
   late Future<List<Komentar>> futureKomentar;
+  var list = <Widget>[];
 
   TextEditingController komentarController = TextEditingController();
 
@@ -110,8 +111,8 @@ class KomentarScreen extends State<KomentarState> {
           title: Text(widget.title),
         ),
         body: Container(
-            margin: EdgeInsets.only(left: 20, right: 20),
-            padding: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 10),
             child: ListView(
               children: <Widget>[
                 ClipRRect(
@@ -138,7 +139,7 @@ class KomentarScreen extends State<KomentarState> {
                           TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
                 ),
                 Container(
-                  padding: EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -161,7 +162,8 @@ class KomentarScreen extends State<KomentarState> {
                         future: futureForum,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            String writer = snapshot.data![0].writer.capitalize();
+                            String writer =
+                                snapshot.data![0].writer.capitalize();
                             return Text("Ditulis oleh: $writer",
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w600));
@@ -179,8 +181,7 @@ class KomentarScreen extends State<KomentarState> {
                 ),
                 Form(
                     key: _formKey,
-                    child: Container(
-                        child: Column(
+                    child: Column(
                       children: [
                         TextFormField(
                             controller: komentarController,
@@ -191,19 +192,65 @@ class KomentarScreen extends State<KomentarState> {
                             margin: const EdgeInsets.only(top: 10, bottom: 10),
                             child: ElevatedButton(
                                 onPressed: () async {
-                                  await http.post(
-                                    Uri.parse(
-                                        'http://10.0.2.2:8000/forum/komentar_post'),
-                                    headers: <String, String>{
-                                      'Content-Type':
-                                          'application/json; charset=UTF-8',
-                                    },
-                                    body: jsonEncode(<String, dynamic>{
-                                      'komentar': komentarController.text,
-                                      'forumId': 1,
-                                      'userId': 1
-                                    }),
-                                  );
+                                  final response = await http
+                                      .post(
+                                        Uri.parse(
+                                            'http://10.0.2.2:8000/forum/komentar_post'),
+                                        headers: <String, String>{
+                                          'Content-Type':
+                                              'application/json; charset=UTF-8',
+                                        },
+                                        body: jsonEncode(<String, dynamic>{
+                                          'komentar': komentarController.text,
+                                          'forumId': 1,
+                                          'userId': 1
+                                        }),
+                                      )
+                                      .then((value) => {
+                                            setState(() {
+                                              List<Komentar> lst =
+                                                  parseKomentar(value.body);
+                                              setState(() {
+                                                list.add(Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        lst[0]
+                                                            .userId
+                                                            .capitalize(),
+                                                        style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      Text(lst[0].komentar),
+                                                    ],
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 10, 0, 10),
+                                                ));
+                                              });
+                                            }),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              24)),
+                                                  content: const Text(
+                                                      'Komentar berhasil ditambahkan')),
+                                            )
+                                          });
                                 },
                                 child: Container(
                                   padding:
@@ -217,7 +264,7 @@ class KomentarScreen extends State<KomentarState> {
                                   ),
                                 ))),
                       ],
-                    ))),
+                    )),
                 const Text(
                   "Replies :",
                   style: TextStyle(
@@ -237,7 +284,6 @@ class KomentarScreen extends State<KomentarState> {
                         future: futureKomentar,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            var list = <Widget>[];
                             for (int i = 0; i < snapshot.data!.length; i++) {
                               list.add(Container(
                                 child: Column(
