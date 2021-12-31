@@ -180,7 +180,7 @@ class _InfoSwabState extends State<InfoSwabScreen> {
 }
 
 Future<List<Swab>> fetchInfoSwab() async {
-  var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab");
+  var url = Uri.parse("http://10.0.2.2:8000/swab-vaksin/json-info-swab");
   var response = await http.get(
     url,
     headers: {

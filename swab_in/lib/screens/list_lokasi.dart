@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:swab_in/widgets/main_drawer.dart';
 import '../models/lokasi.dart';
 
@@ -98,7 +99,7 @@ class LokasiHomePageState extends State<LokasiHomePage> {
 }
 
 Future<List<Post>> fetchPost() async {
-  var url = Uri.parse("http://127.0.0.1:8000/forum/json_lokasi");
+  var url = Uri.parse("http://10.0.2.2:8000/forum/json_lokasi");
   var response = await http.get(
     url,
     headers: {
@@ -109,8 +110,10 @@ Future<List<Post>> fetchPost() async {
   var data = jsonDecode(utf8.decode(response.bodyBytes));
   List<Post> result = [];
   for (var d in data) {
+  
        Post posts = Post(
           lokasi: d["fields"]["lokasi"],
+          date_posted: DateFormat('kk:mm:ss \n EEE d MMM').format(DateTime.now()),
           detail: d["fields"]["detail"],
           lokasi_pic: d["fields"]["lokasi_pic"],
           pk: d["pk"]);

@@ -35,11 +35,7 @@ List<Komentar> parseKomentar(String responseBody) {
 
 Future<List<Komentar>> fetchKomentar(dynamic pk) async {
   final response = await http.get(
-<<<<<<< HEAD
-      Uri.parse('http://localhost:8000/forum/get_komentar'),
-=======
-      Uri.parse('http://127.0.0.1:8000/forum/get_komentar'),
->>>>>>> de5b14aad200c3880515869ab4fefff8a6c367f8
+      Uri.parse('http://10.0.2.2:8000/forum/get_komentar'),
       headers: {'pk': pk.toString()});
 
   if (response.statusCode == 200) {
@@ -61,11 +57,7 @@ List<Forums> parseForum(String responseBody) {
 
 Future<List<Forums>> fetchForum(dynamic pk) async {
   final response = await http.get(
-<<<<<<< HEAD
-      Uri.parse('http://localhost:8000/forum/forum_content'),
-=======
-      Uri.parse('http://127.0.0.1:8000/forum/forum_content'),
->>>>>>> de5b14aad200c3880515869ab4fefff8a6c367f8
+      Uri.parse('http://10.0.2.2:8000/forum/forum_content'),
       headers: {'pk': pk.toString()});
 
   if (response.statusCode == 200) {
@@ -212,11 +204,7 @@ class KomentarState extends State<KomentarScreen> {
                                     await http
                                         .post(
                                           Uri.parse(
-<<<<<<< HEAD
-                                              'http://localhost:8000/forum/komentar_post'),
-=======
-                                              'http://127.0.0.1:8000/forum/komentar_post'),
->>>>>>> de5b14aad200c3880515869ab4fefff8a6c367f8
+                                              'http://10.0.2.2:8000/forum/komentar_post'),
                                           headers: <String, String>{
                                             'Content-Type':
                                                 'application/json; charset=UTF-8',

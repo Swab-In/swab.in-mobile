@@ -111,11 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5,
         onPressed: () async {
           final response =
-<<<<<<< HEAD
-              await http.post(Uri.parse("http://localhost:8000/login/"),
-=======
-              await http.post(Uri.parse("http://127.0.0.1:8000/login/"),
->>>>>>> de5b14aad200c3880515869ab4fefff8a6c367f8
+              await http.post(Uri.parse("http://10.0.2.2:8000/login/"),
                   headers: <String, String>{
                     'Content-Type': 'application/json;charset=UTF-8',
                   },

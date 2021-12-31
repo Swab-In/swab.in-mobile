@@ -39,7 +39,7 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
   Future<void> createSwabExperience(BuildContext context) async {
     int no = 1;
     var response = await http.get(
-      Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab"),
+      Uri.parse("http://10.0.2.2:8000/swab-vaksin/json-info-swab"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
         try {
           print(experieneContoller.text);
           print(user);
-          var url = "http://127.0.0.1:8000/swab-vaksin/add-experience-swab";
+          var url = "http://10.0.2.2:8000/swab-vaksin/add-experience-swab";
           var response = await http.post(Uri.parse(url),
               headers: {
                 'Content-Type': 'application/json',

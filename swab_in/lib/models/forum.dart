@@ -8,6 +8,7 @@ class Forum {
     final String title;
     final String message;
     final int post_id;
+    final int pk;
 
   Forum({
     required this.writer,
@@ -15,6 +16,7 @@ class Forum {
     required this.title,
     required this.message,
     required this.post_id,
+    required this.pk
   });
 
   factory Forum.fromJson(Map<String, dynamic> json) => Forum(
@@ -23,6 +25,7 @@ class Forum {
       title: json["fields"]["title"],
       message: json["fields"]["message"],
       post_id: json["fields"]["post_id"],
+      pk : json["pk"]
   );
 
   Map<String, dynamic> toJson() => {

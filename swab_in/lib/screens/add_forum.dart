@@ -37,7 +37,7 @@ class AddForumState extends State<AddForum> {
   Future<void> createForum() async {
     int no;
     var response = await http.get(
-      Uri.parse("http://127.0.0.1:8000/forum/json_lokasi"),
+      Uri.parse("http://10.0.2.2:8000/forum/json_lokasi"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ class AddForumState extends State<AddForum> {
       if (d["pk"] == args) {
         no = d["pk"];
         try {
-          var url = "http://127.0.0.1:8000/forum/add_forum";
+          var url = "http://10.0.2.2:8000/forum/add_forum";
           var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
               body: jsonEncode({

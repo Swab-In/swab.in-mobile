@@ -34,7 +34,7 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
   }
   Future<List<VaksinExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://127.0.0.1:8000/swab-vaksin/json-vaksin";
+    String url = "http://10.0.2.2:8000/swab-vaksin/json-vaksin";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -64,7 +64,7 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
 
   Future<List<Vaksin>> fetchInfoVaksin() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-vaksin");
+    var url = Uri.parse("http://10.0.2.2:8000/swab-vaksin/json-info-vaksin");
     try {
       var response = await http.get(
         url,

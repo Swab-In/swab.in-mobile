@@ -102,10 +102,6 @@ class MainDrawerState extends State<MainDrawer> {
           buildListTile('Artikel', Icons.article, () {
             Navigator.of(context).pushReplacementNamed('/');
           }),
-          buildListTile('Komentar', Icons.comment, () {
-            Navigator.of(context).pushReplacementNamed(KomentarScreen.routeName,
-                arguments: KomentarArguments(title: 'asu', pk: "1"));
-          }),
           user == null
               ? buildListTile('Login', Icons.login, () {
                   Navigator.of(context)
