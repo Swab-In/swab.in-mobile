@@ -137,6 +137,11 @@ class FormScreenState extends State<FormScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Pesan berhasil dikirim')),
                       ),
+                      namaDepanKontroler.clear(),
+                      namaBelakangKontroler.clear(),
+                      emailKontroler.clear(),
+                      noHPKontroler.clear(),
+                      pesanKontroler.clear()
                     }
                 },
                 child: const Text('Submit'),
