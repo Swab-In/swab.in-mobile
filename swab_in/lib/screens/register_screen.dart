@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:swab_in/screens/login_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:swab_in/screens/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -301,7 +302,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'password1': password1Controller.text,
                     'password2': password2Controller.text,
                   }));
-                  print(response.body);
+                  // print(response.body);
+                  (Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => MainScreen()),
+                    ));
         },
       padding: EdgeInsets.all(15),
       shape: RoundedRectangleBorder(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:swab_in/screens/main_screen.dart';
 import 'package:swab_in/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -119,7 +120,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     'username': usernameController.text,
                     'password': passwordController.text,
                   }));
-                  print(response.body);
+                  // print(response.body);
+                  (Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => MainScreen()),
+                    ));
+
         },
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
