@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/swab_experience.dart';
 import '../screens/info_swab_screen.dart';
@@ -18,8 +19,22 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
   final _formKey = GlobalKey<FormState>();
   late SwabExperience _experience;
   var args;
+  String? user;
 
   TextEditingController experieneContoller = TextEditingController();
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+    });
+  }
 
   Future<void> createSwabExperience(BuildContext context) async {
     int no = 1;
@@ -36,6 +51,7 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
         no = d["pk"];
         try {
           print(experieneContoller.text);
+          print(user);
           var url = "http://127.0.0.1:8000/swab-vaksin/add-experience-swab";
           var response = await http.post(Uri.parse(url),
               headers: {
@@ -43,7 +59,7 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
                 'Access-Control-Allow-Origin': '*',
               },
               body: jsonEncode({
-                'penulis': "fitri",
+                'penulis': user,
                 'pengalamanSwab': experieneContoller.text,
                 'swab_id': no,
               }));
