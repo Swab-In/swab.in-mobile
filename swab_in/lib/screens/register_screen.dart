@@ -16,8 +16,12 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
-  final emailController = TextEditingController();
+  final firstnameController = TextEditingController();
   final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final pekerjaanController = TextEditingController();
+  final umurController = TextEditingController();
+  final userpicController = TextEditingController();
   final password1Controller = TextEditingController();
   final password2Controller = TextEditingController();
 
@@ -181,6 +185,156 @@ class _RegisterScreenState extends State<RegisterScreen> {
    );
   }
 
+  Widget buildPekerjaan() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        'Pekerjaan',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold
+        )
+      ),
+      SizedBox(height: 10),
+      Container(
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 6,
+              offset: Offset(0,2)
+            )
+          ]
+        ),
+        height: 60,
+        child: TextField(
+          keyboardType: TextInputType.name,
+          style: TextStyle(
+            color: Colors.black87
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14),
+            prefixIcon: Icon(
+              Icons.people,
+              color: Color(0xff00acfa)
+            ),
+            hintText: 'Pekerjaan',
+            hintStyle: TextStyle(
+              color: Colors.black38
+             )
+           ),
+         )
+       )
+     ]
+   );
+  }
+
+  Widget buildUmur() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        'Umur',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold
+        )
+      ),
+      SizedBox(height: 10),
+      Container(
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 6,
+              offset: Offset(0,2)
+            )
+          ]
+        ),
+        height: 60,
+        child: TextField(
+          keyboardType: TextInputType.name,
+          style: TextStyle(
+            color: Colors.black87
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14),
+            prefixIcon: Icon(
+              Icons.people_sharp,
+              color: Color(0xff00acfa)
+            ),
+            hintText: 'Umur',
+            hintStyle: TextStyle(
+              color: Colors.black38
+             )
+           ),
+         )
+       )
+     ]
+   );
+  }
+
+  Widget buildUserPic() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        'User Pic',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold
+        )
+      ),
+      SizedBox(height: 10),
+      Container(
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 6,
+              offset: Offset(0,2)
+            )
+          ]
+        ),
+        height: 60,
+        child: TextField(
+          keyboardType: TextInputType.name,
+          style: TextStyle(
+            color: Colors.black87
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14),
+            prefixIcon: Icon(
+              Icons.people_sharp,
+              color: Color(0xff00acfa)
+            ),
+            hintText: 'User Pic',
+            hintStyle: TextStyle(
+              color: Colors.black38
+             )
+           ),
+         )
+       )
+     ]
+   );
+  }
+
   Widget buildPassword() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,8 +451,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Content-Type': 'application/json;charset=UTF-8',
                   },
                   body: jsonEncode(<String, dynamic>{
-                    'email': emailController.text,
+                    'first_name': firstnameController.text,
                     'username': usernameController.text,
+                    'email': emailController.text,
+                    'pekerjaan': pekerjaanController.text,
+                    'umur': umurController.text,
+                    'userpic': userpicController.text,
                     'password1': password1Controller.text,
                     'password2': password2Controller.text,
                   }));
@@ -404,6 +562,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     buildName(),
                     buildUname(),
                     buildEmail(),
+                    buildPekerjaan(),
+                    buildUmur(),
+                    buildUserPic(),
                     SizedBox(height: 20),
                     buildPassword(),
                     buildRePassword(),
