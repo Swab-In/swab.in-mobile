@@ -32,16 +32,16 @@ class _CreateLokasiState extends State<CreateLokasi> {
     for (var d in data) {
       no = d["pk"];
       try {
-        var url = "http://127.0.0.1:8000/lokasi/add_lokasi";
+        print("debug TRY");
+        var url = "http://127.0.0.1:8000/lokasi/add_post";
         var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
-              'author': authorController.text, // ini harusnya get user yg login
+              'author': authorController.text,
               'lokasi': lokasiController.text,
               'detail': detailController.text,
               'date_posted': DateFormat.yMMMEd().format(DateTime.now()),
               'lokasi_pic': '',
-              'post_id': no,
             }));
       } catch (error) {
         print(error);
