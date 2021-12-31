@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'screens/komentar.dart';
-void main() {
-  runApp(const MyApp());
+import 'screens/komentar_screen.dart';
+import 'package:swab_in/screens/detail_swab_screen.dart';
+
+import '../widgets/main_drawer.dart';
+import './screens/main_screen.dart';
+import './screens/info_swab_screen.dart';
+import './screens/add_experience_screen.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,57 +22,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Swab.In'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Kelompok B10',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return KomentarState(title: "Komentar Momen");
-  }))
-          ,
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      initialRoute: '/', // default is '/'
+      routes: {
+        '/': (ctx) => MainScreen(),
+        InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
+        DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
+        AddExperienceScreen.routeName: (context) => const AddExperienceScreen(),
+        
+      },
+      onGenerateRoute: (settings) {
+        if(settings.name == KomentarScreen.routeName  ){
+          final args = settings.arguments as KomentarArguments;
+          
+          return MaterialPageRoute(
+            builder: (context) {
+              return  KomentarScreen(
+                title: args.title,
+                pk: args.pk
+              );
+            },
+          );
+        }
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => MainScreen(),
+        );
+      },
     );
   }
 }

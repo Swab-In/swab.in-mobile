@@ -2,26 +2,28 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:swab_in/screens/main_screen.dart';
 import "string_extension.dart";
+import '../models/komentar.dart';
+import '../models/forum.dart';
 
-class KomentarState extends StatefulWidget {
-  const KomentarState({Key? key, required this.title}) : super(key: key);
+class KomentarScreen extends StatefulWidget {
+  const KomentarScreen({Key? key, required this.title, required this.pk})
+      : super(key: key);
 
   final String title;
+  final String pk;
+  static const routeName = '/komentar-thread';
 
   @override
-  State<KomentarState> createState() => KomentarScreen();
+  KomentarState createState() => KomentarState();
 }
 
-class Komentar {
-  final String komentar;
-  final String userId;
+class KomentarArguments {
+  final String pk;
+  final String title;
 
-  Komentar({required this.komentar, required this.userId});
-
-  factory Komentar.fromJson(Map<String, dynamic> json) {
-    return Komentar(komentar: json['komentar'], userId: json['user_id']);
-  }
+  KomentarArguments({required this.pk, required this.title});
 }
 
 List<Komentar> parseKomentar(String responseBody) {
@@ -30,9 +32,10 @@ List<Komentar> parseKomentar(String responseBody) {
   return parsed.map<Komentar>((json) => Komentar.fromJson(json)).toList();
 }
 
-Future<List<Komentar>> fetchKomentar() async {
-  final response =
-      await http.get(Uri.parse('http://10.0.2.2:8000/forum/get_komentar'));
+Future<List<Komentar>> fetchKomentar(dynamic pk) async {
+  final response = await http.get(
+      Uri.parse('http://10.0.2.2:8000/forum/get_komentar'),
+      headers: {'pk': pk.toString()});
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -45,36 +48,16 @@ Future<List<Komentar>> fetchKomentar() async {
   }
 }
 
-class Forum {
-  final String title;
-  final String imageUrl;
-  final String writer;
-  final String content;
-
-  Forum(
-      {required this.title,
-      required this.imageUrl,
-      required this.content,
-      required this.writer});
-
-  factory Forum.fromJson(Map<String, dynamic> json) {
-    return Forum(
-        title: json['title'],
-        imageUrl: json['image'],
-        content: json['content'],
-        writer: json['writer']);
-  }
-}
-
 List<Forum> parseForum(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
   return parsed.map<Forum>((json) => Forum.fromJson(json)).toList();
 }
 
-Future<List<Forum>> fetchForum() async {
-  final response =
-      await http.get(Uri.parse('http://10.0.2.2:8000/forum/forum_content'));
+Future<List<Forum>> fetchForum(dynamic pk) async {
+  final response = await http.get(
+      Uri.parse('http://10.0.2.2:8000/forum/forum_content'),
+      headers: {'pk': pk.toString()});
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -87,7 +70,7 @@ Future<List<Forum>> fetchForum() async {
   }
 }
 
-class KomentarScreen extends State<KomentarState> {
+class KomentarState extends State<KomentarScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Widget> listW = [];
   late Future<List<Forum>> futureForum;
@@ -100,8 +83,8 @@ class KomentarScreen extends State<KomentarState> {
   @override
   void initState() {
     super.initState();
-    futureForum = fetchForum();
-    futureKomentar = fetchKomentar();
+    futureForum = fetchForum(widget.pk);
+    futureKomentar = fetchKomentar(widget.pk);
   }
 
   @override
@@ -110,6 +93,11 @@ class KomentarScreen extends State<KomentarState> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(widget.title),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.of(context)
+                .pushReplacementNamed(MainScreen.routeName),
+          ),
         ),
         body: Container(
             margin: const EdgeInsets.only(left: 20, right: 20),
@@ -134,6 +122,7 @@ class KomentarScreen extends State<KomentarState> {
                   ),
                 ),
                 Container(
+                  decoration: BoxDecoration(color: Color(0xff7c94b6)),
                   margin: const EdgeInsets.only(top: 25, bottom: 5),
                   child: const Text("Review Swab",
                       style:
@@ -204,7 +193,7 @@ class KomentarScreen extends State<KomentarState> {
                                           },
                                           body: jsonEncode(<String, dynamic>{
                                             'komentar': komentarController.text,
-                                            'forumId': 1,
+                                            'forumId': widget.pk,
                                             'userId': 1
                                           }),
                                         )
