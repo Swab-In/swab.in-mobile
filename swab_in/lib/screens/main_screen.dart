@@ -40,7 +40,7 @@ class MainScreen extends StatelessWidget {
                 height: 32,
               ),
               Center(
-                child: Image.network("assets/logo.png", scale: 0.75),
+                child: Image.asset("assets/images/logo.png", scale: 0.75),
               ),
               SizedBox(
                 height: 30,
