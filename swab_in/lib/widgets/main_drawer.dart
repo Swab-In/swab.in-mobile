@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/list_lokasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
@@ -94,7 +97,7 @@ class MainDrawerState extends State<MainDrawer> {
             Navigator.of(context).pushReplacementNamed('/');
           }),
           buildListTile('Lokasi', Icons.place, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacementNamed(LokasiHomePage.routeName);
           }),
           buildListTile('Artikel', Icons.article, () {
             Navigator.of(context).pushReplacementNamed('/');

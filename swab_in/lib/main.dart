@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 
 import './screens/komentar_screen.dart';
@@ -9,6 +10,9 @@ import './screens/info_swab_screen.dart';
 import './screens/add_experience_swab_screen.dart';
 import './screens/info_vaksin_screen.dart';
 import './screens/add_experience_vaksin_screen.dart';
+import 'package:swab_in/screens/add_forum.dart';
+import 'package:swab_in/screens/list_forum.dart';
+import 'screens/list_lokasi.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -34,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         AddExperienceSwabScreen.routeName: (context) => const AddExperienceSwabScreen(),
         AddExperienceVaksinScreen.routeName: (context) => const AddExperienceVaksinScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
+        ListForumHomePageState.routeName: (context) => ListForumHomePage(),
+        AddForumState.routeName: (context) => AddForum(),       
+        LokasiHomePage.routeName: (context) => LokasiHomePage(),   
       },
       onGenerateRoute: (settings) {
         if(settings.name == KomentarScreen.routeName  ){

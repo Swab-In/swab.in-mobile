@@ -53,13 +53,13 @@ Future<List<Komentar>> fetchKomentar(dynamic pk) async {
   }
 }
 
-List<Forum> parseForum(String responseBody) {
+List<Forums> parseForum(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<Forum>((json) => Forum.fromJson(json)).toList();
+  return parsed.map<Forums>((json) => Forums.fromJson(json)).toList();
 }
 
-Future<List<Forum>> fetchForum(dynamic pk) async {
+Future<List<Forums>> fetchForum(dynamic pk) async {
   final response = await http.get(
 <<<<<<< HEAD
       Uri.parse('http://localhost:8000/forum/forum_content'),
@@ -82,7 +82,7 @@ Future<List<Forum>> fetchForum(dynamic pk) async {
 class KomentarState extends State<KomentarScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Widget> listW = [];
-  late Future<List<Forum>> futureForum;
+  late Future<List<Forums>> futureForum;
   late Future<List<Komentar>> futureKomentar;
   var list = <Widget>[];
   bool firstfetch = true;
@@ -132,7 +132,7 @@ class KomentarState extends State<KomentarScreen> {
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: FutureBuilder<List<Forum>>(
+                  child: FutureBuilder<List<Forums>>(
                     future: futureForum,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -159,7 +159,7 @@ class KomentarState extends State<KomentarScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      FutureBuilder<List<Forum>>(
+                      FutureBuilder<List<Forums>>(
                         future: futureForum,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -174,7 +174,7 @@ class KomentarState extends State<KomentarScreen> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      FutureBuilder<List<Forum>>(
+                      FutureBuilder<List<Forums>>(
                         future: futureForum,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
