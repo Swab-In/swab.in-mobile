@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/main_screen.dart';
 import 'package:swab_in/screens/register_screen.dart';
 
@@ -110,9 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5,
         onPressed: () async {
           final response =
-          // print(usernameController);
-          // print(usernameController);
-              await http.post(Uri.parse("http://127.0.0.1:8000/login/"),
+              await http.post(Uri.parse("http://10.0.2.2:8000/login/"),
                   headers: <String, String>{
                     'Content-Type': 'application/json;charset=UTF-8',
                   },
@@ -120,13 +119,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     'username': usernameController.text,
                     'password': passwordController.text,
                   }));
-                  print(response.body);
-                  (Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                    builder: (context) => MainScreen()),
-                    ));
+          var res = jsonDecode(response.body);
+          if (res['success']) {
+            final prefs = await SharedPreferences.getInstance();
+            
+            prefs.setString("userName", usernameController.text);
+            prefs.setInt("user_id", res['user_id']);
 
+            (Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()),
+            ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  content: const Text('Login Gagal!')),
+            );
+          }
         },
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -170,10 +183,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget buildSignUpBtn() {
     return GestureDetector(
         onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterScreen()),
-              );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RegisterScreen()),
+          );
         },
         child: RichText(
             text: TextSpan(children: [

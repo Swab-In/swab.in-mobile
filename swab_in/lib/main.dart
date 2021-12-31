@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/komentar_screen.dart';
 import 'package:swab_in/screens/detail_swab_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
 
@@ -31,7 +32,18 @@ class _MyAppState extends State<MyApp> {
         LoginScreen.routeName: (context) => const LoginScreen(),
       },
       onGenerateRoute: (settings) {
-        print(settings.arguments);
+        if(settings.name == KomentarScreen.routeName  ){
+          final args = settings.arguments as KomentarArguments;
+          
+          return MaterialPageRoute(
+            builder: (context) {
+              return  KomentarScreen(
+                title: args.title,
+                pk: args.pk
+              );
+            },
+          );
+        }
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
