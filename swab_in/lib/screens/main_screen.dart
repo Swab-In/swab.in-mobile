@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swab_in/screens/komentar_screen.dart';
 import '../widgets/main_drawer.dart';
 
 class MainScreen extends StatelessWidget {
@@ -38,7 +40,7 @@ class MainScreen extends StatelessWidget {
                 height: 32,
               ),
               Center(
-                child: Image.network("assets/logo.png", scale: 0.75),
+                child: Image.asset("assets/images/logo.png", scale: 0.75),
               ),
               SizedBox(
                 height: 30,

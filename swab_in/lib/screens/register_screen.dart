@@ -335,7 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           final response =
               // print(usernameController);
               // print(usernameController);
-              await http.post(Uri.parse("http://127.0.0.1:8000/register/"),
+              await http.post(Uri.parse("http://10.0.2.2:8000/register/"),
                   headers: <String, String>{
                     'Content-Type': 'application/json;charset=UTF-8',
                   },
@@ -350,11 +350,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'password2': password2Controller.text,
                   }));
           // ignore: avoid_print
-          print(response.body);
-          (Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
-          ));
+          var res = jsonDecode(response.body);
+          if (res['success']) {
+            (Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()),
+            ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  content: const Text('Registrasi Gagal!')),
+            );
+          }
         },
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

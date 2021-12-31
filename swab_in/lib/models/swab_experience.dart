@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-class Experience {
+class SwabExperience {
     final int swabId;
     final String penulis;
     final String pengalamanSwab;
     final int pk;
 
-  Experience({
+  SwabExperience({
     required this.swabId,
     required this.penulis,
     required this.pengalamanSwab,
     required this.pk
   });
 
-  factory Experience.fromJson(Map<String, dynamic> json) => Experience(
+  factory SwabExperience.fromJson(Map<String, dynamic> json) => SwabExperience(
       swabId: json["fields"]["swab_id"],
       penulis: json["fields"]["penulis"],
       pengalamanSwab: json["fields"]["pengalamanSwab"],
