@@ -4,6 +4,7 @@ import 'package:swab_in/screens/komentar_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
 import "../screens/string_extension.dart";
+import 'package:http/http.dart' as http;
 
 import '../screens/info_swab_screen.dart';
 
@@ -49,6 +50,13 @@ class MainDrawerState extends State<MainDrawer> {
     });
   }
 
+  void logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        LoginScreen.routeName, (Route<dynamic> route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -88,16 +96,26 @@ class MainDrawerState extends State<MainDrawer> {
             Navigator.of(context).pushReplacementNamed('/');
           }),
           buildListTile('Komentar', Icons.comment, () {
-            Navigator.of(context)
-                .pushReplacementNamed(KomentarScreen.routeName);
+            Navigator.of(context).pushReplacementNamed(KomentarScreen.routeName,
+                arguments: KomentarArguments(title: 'asu', pk: "1"));
           }),
-          user == ''
+          user == null
               ? buildListTile('Login', Icons.login, () {
                   Navigator.of(context)
                       .pushReplacementNamed(LoginScreen.routeName);
                 })
-              : ElevatedButton(
-                  onPressed: () async {}, child: const Text('Logout'))
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                      SizedBox(height: 15),
+                      Text(
+                        'Howdy, $user!',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                          onPressed: logoutUser, child: Text("Log me Out"))
+                    ])
         ],
       ),
     );

@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
             final prefs = await SharedPreferences.getInstance();
             
             prefs.setString("userName", usernameController.text);
-            prefs.setString("user_id", res['user_id']);
+            prefs.setInt("user_id", res['user_id']);
 
             (Navigator.push(
               context,

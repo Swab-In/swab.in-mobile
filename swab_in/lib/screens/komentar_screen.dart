@@ -33,7 +33,6 @@ List<Komentar> parseKomentar(String responseBody) {
   return parsed.map<Komentar>((json) => Komentar.fromJson(json)).toList();
 }
 
-
 Future<List<Komentar>> fetchKomentar(dynamic pk) async {
   final response = await http.get(
       Uri.parse('http://10.0.2.2:8000/forum/get_komentar'),
@@ -79,6 +78,8 @@ class KomentarState extends State<KomentarScreen> {
   late Future<List<Komentar>> futureKomentar;
   var list = <Widget>[];
   bool firstfetch = true;
+  String? user;
+  int? userId;
 
   _getState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -87,12 +88,22 @@ class KomentarState extends State<KomentarScreen> {
 
   TextEditingController komentarController = TextEditingController();
 
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+      userId = prefs.getInt('user_id');
+    });
+    
+  }
+
   @override
   void initState() {
     super.initState();
     futureForum = fetchForum(widget.pk);
     futureKomentar = fetchKomentar(widget.pk);
     _getState();
+    _loadUser();
   }
 
   @override
@@ -202,7 +213,7 @@ class KomentarState extends State<KomentarScreen> {
                                           body: jsonEncode(<String, dynamic>{
                                             'komentar': komentarController.text,
                                             'forumId': widget.pk,
-                                            'userId': 1
+                                            'userId': userId
                                           }),
                                         )
                                         .then((value) => {
