@@ -335,7 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           final response =
               // print(usernameController);
               // print(usernameController);
-              await http.post(Uri.parse("http://localhost:8000/register/"),
+              await http.post(Uri.parse("http://127.0.0.1:8000/register/"),
                   headers: <String, String>{
                     'Content-Type': 'application/json;charset=UTF-8',
                   },

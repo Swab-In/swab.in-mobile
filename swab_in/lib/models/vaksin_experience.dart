@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class VaksinExperience {
     final int vaksinId;
-    final String penulis;
+    final String? penulis;
     final String pengalamanVaksin;
     final int pk;
 

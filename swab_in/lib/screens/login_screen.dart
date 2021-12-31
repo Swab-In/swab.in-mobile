@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5,
         onPressed: () async {
           final response =
-              await http.post(Uri.parse("http://localhost:8000/login/"),
+              await http.post(Uri.parse("http://127.0.0.1:8000/login/"),
                   headers: <String, String>{
                     'Content-Type': 'application/json;charset=UTF-8',
                   },
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
           var res = jsonDecode(response.body);
           if (res['success']) {
             final prefs = await SharedPreferences.getInstance();
-            
+
             prefs.setString("userName", usernameController.text);
             prefs.setInt("user_id", res['user_id']);
 
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                backgroundColor: Colors.red,
+                  backgroundColor: Colors.red,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(24)),
