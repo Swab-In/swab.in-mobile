@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swab_in/screens/komentar_screen.dart';
 import '../widgets/main_drawer.dart';
 
 class MainScreen extends StatelessWidget {
