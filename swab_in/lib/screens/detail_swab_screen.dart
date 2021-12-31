@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/swab.dart';
 import '../models/swab_experience.dart';
@@ -16,7 +17,21 @@ class DetailSwabScreen extends StatefulWidget {
 }
 
 class DetailSwabState extends State<DetailSwabScreen> {
+  String? user;
   var args;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+    });
+  }
 
   Future<List<SwabExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
@@ -268,15 +283,18 @@ class DetailSwabState extends State<DetailSwabScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-          child: Icon(
-            Icons.add,
-            size: 30,
+      floatingActionButton: 
+        user != null
+        ? FloatingActionButton(
+            backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+            child: Icon(
+              Icons.add,
+              size: 30,
           ),
           onPressed: () {
             Navigator.pushNamed(context, '/add-experience-swab', arguments: args);
-          }),
+          })
+          : SizedBox(height: 15),
     );
   }
 }
