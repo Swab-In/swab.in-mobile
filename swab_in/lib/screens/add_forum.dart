@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/list_forum.dart';
 import 'package:swab_in/screens/list_lokasi.dart';
 import '../models/forum.dart';
@@ -22,6 +23,16 @@ class AddForumState extends State<AddForum> {
   TextEditingController titleContoller = TextEditingController();
   TextEditingController messageContoller = TextEditingController();
   TextEditingController imageContoller = TextEditingController();
+  String? user;
+  int? userId;
+
+ void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+      userId = prefs.getInt('user_id');
+    });  
+  }
 
   Future<void> createForum() async {
     int no;
@@ -41,7 +52,7 @@ class AddForumState extends State<AddForum> {
           var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
               body: jsonEncode({
-              'writer': 'swabdev', // ini harusnya get user yg login
+              'writer': user, 
               'title': titleContoller.text,
               'message': messageContoller.text,
               'image': imageContoller.text,
@@ -153,6 +164,7 @@ class AddForumState extends State<AddForum> {
                     onPressed: () {
                     if (_formKey.currentState?.validate() ?? true) {
                       createForum();
+                      _loadUser();
                     }
                     }
                   ),

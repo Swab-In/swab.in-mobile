@@ -1,3 +1,4 @@
+
 // // ignore_for_file: non_constant_identifier_names
 import 'dart:convert';
 
@@ -31,4 +32,25 @@ class Forum {
     "image": image,
     "post_id": post_id,
   };
+}
+
+class Forums {
+  final String title;
+  final String imageUrl;
+  final String writer;
+  final String content;
+
+  Forums (
+      {required this.title,
+      required this.imageUrl,
+      required this.content,
+      required this.writer});
+
+  factory Forums.fromJson(Map<String, dynamic> json) {
+    return Forums(
+        title: json['title'],
+        imageUrl: json['image'],
+        content: json['content'],
+        writer: json['writer']);
+  }
 }

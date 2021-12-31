@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/widgets/main_drawer.dart';
 import '../models/lokasi.dart';
 import '../models/forum.dart';
@@ -16,7 +17,7 @@ class ListForumHomePage extends StatefulWidget {
 class ListForumHomePageState extends State<ListForumHomePage> {
   static const routeName = '/forum';
   var args;
-
+  
   Future<List<Forum>> fetchForum() async {
     args = ModalRoute.of(context)!.settings.arguments;
     String url = "http://127.0.0.1:8000/forum/json_forum";

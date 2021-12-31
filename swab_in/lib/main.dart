@@ -1,14 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+
+import './screens/komentar_screen.dart';
+import './screens/login_screen.dart';
+import './screens/main_screen.dart';
+import './screens/detail_swab_screen.dart';
+import './screens/detail_vaksin_screen.dart';
+import './screens/info_swab_screen.dart';
+import './screens/add_experience_swab_screen.dart';
+import './screens/info_vaksin_screen.dart';
+import './screens/add_experience_vaksin_screen.dart';
 import 'package:swab_in/screens/add_forum.dart';
 import 'package:swab_in/screens/list_forum.dart';
 import 'screens/list_lokasi.dart';
-import 'package:swab_in/screens/detail_swab_screen.dart';
-import '../widgets/main_drawer.dart';
-import './screens/main_screen.dart';
-import './screens/info_swab_screen.dart';
-import './screens/add_experience_screen.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -28,14 +32,29 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (ctx) => MainScreen(),
         InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
-        DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),  
-        AddExperienceScreen.routeName: (context) => const AddExperienceScreen(),      
+        InfoVaksinScreen.routeName: (context) => const InfoVaksinScreen(),
+        DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
+        DetailVaksinScreen.routeName: (context) => const DetailVaksinScreen(),
+        AddExperienceSwabScreen.routeName: (context) => const AddExperienceSwabScreen(),
+        AddExperienceVaksinScreen.routeName: (context) => const AddExperienceVaksinScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
         ListForumHomePageState.routeName: (context) => ListForumHomePage(),
         AddForumState.routeName: (context) => AddForum(),       
         LokasiHomePage.routeName: (context) => LokasiHomePage(),   
       },
       onGenerateRoute: (settings) {
-        print(settings.arguments);
+        if(settings.name == KomentarScreen.routeName  ){
+          final args = settings.arguments as KomentarArguments;
+          
+          return MaterialPageRoute(
+            builder: (context) {
+              return  KomentarScreen(
+                title: args.title,
+                pk: args.pk
+              );
+            },
+          );
+        }
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
