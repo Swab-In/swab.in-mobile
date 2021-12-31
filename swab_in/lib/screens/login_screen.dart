@@ -122,8 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
           var res = jsonDecode(response.body);
           if (res['success']) {
             final prefs = await SharedPreferences.getInstance();
-
+            
             prefs.setString("userName", usernameController.text);
+            prefs.setString("user_id", res['user_id']);
+
             (Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MainScreen()),

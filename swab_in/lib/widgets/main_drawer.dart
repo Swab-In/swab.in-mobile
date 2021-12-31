@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
+import "../screens/string_extension.dart";
 
 import '../screens/info_swab_screen.dart';
 
@@ -35,10 +36,16 @@ class MainDrawerState extends State<MainDrawer> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
   void _loadUser() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      user = prefs.getString('user');
+      user = prefs.getString('userName');
     });
   }
 
@@ -89,7 +96,8 @@ class MainDrawerState extends State<MainDrawer> {
                   Navigator.of(context)
                       .pushReplacementNamed(LoginScreen.routeName);
                 })
-              : Text(user!),
+              : ElevatedButton(
+                  onPressed: () async {}, child: const Text('Logout'))
         ],
       ),
     );
