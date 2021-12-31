@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import '../models/lokasi.dart';
 
 class CreateLokasi extends StatefulWidget {
   const CreateLokasi({Key? key}) : super(key: key);
@@ -10,25 +11,34 @@ class CreateLokasi extends StatefulWidget {
   _CreateLokasiState createState() => _CreateLokasiState();
 }
 
-class _CreateLokasiState extends State<CreateLokasi> {
-  late String author, lokasi, detail;
+Future<Post?> createPost(String author, String lokasi, String detail) async {
   String date_posted = DateFormat.yMMMEd().format(DateTime.now());
 
-  Future<void> create() async {
-  // final response = await http.post(Uri.parse("http://127.0.0.1:8000/lokasi/json"),
-  //   headers: <String, String>{
-  //     'Content-Type': 'application/json; charset=UTF-8',
-  //   },
-  //   body: jsonEncode(<String, String>{
-  //     'author': author,
-  //     'lokasi': lokasi,
-  //     'detail': detail,
-  //     'date_posted': date_posted,
-  //     'pic_lokasi': '',
-  //   }),
-  // );
-  Navigator.pop(context);
+  final String apiUrl = "http://127.0.0.1:8000/forum/json_lokasi";
+
+  final response = await http.post(Uri.parse(apiUrl), body: {
+    "author": author,
+    "lokasi": lokasi,
+    "detail": detail,
+    "date_posted": date_posted,
+    "lokasi_pic": "",
+  });
+
+  if (response.statusCode == 201) {
+    final String responseString = response.body;
+    print(responseString);
+    return PostFromJson(responseString);
+  } else {
+    return null;
+  }
 }
+
+class _CreateLokasiState extends State<CreateLokasi> {
+  late Post _post;
+
+  final TextEditingController authorController = TextEditingController();
+  final TextEditingController lokasiController = TextEditingController();
+  final TextEditingController detailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +56,17 @@ class _CreateLokasiState extends State<CreateLokasi> {
         elevation: 0.0,
         actions: <Widget>[
           GestureDetector(
-            onTap: () {
-              create();
+            onTap: () async {
+              final String author = authorController.text;
+              final String lokasi = authorController.text;
+              final String detail = authorController.text;
+
+              final Post? post = await createPost(author, lokasi, detail);
+
+              setState(() {
+                _post = post!;
+              });
+              Navigator.pop(context);
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -81,23 +100,18 @@ class _CreateLokasiState extends State<CreateLokasi> {
               child: Column(
                 children: <Widget>[
                   TextField(
+                    controller: authorController,
                     decoration: InputDecoration(hintText: "Nama Author"),
-                    onChanged: (val) {
-                      author = val;
-                    },
                   ),
                   TextField(
+                    controller: lokasiController,
                     decoration: InputDecoration(hintText: "Lokasi"),
-                    onChanged: (val) {
-                      lokasi = val;
-                    },
                   ),
                   TextField(
                     maxLines: 3,
-                    decoration: InputDecoration(hintText: "Deskripsi singkat/alamat"),
-                    onChanged: (val) {
-                      detail = val;
-                    },
+                    controller: detailController,
+                    decoration:
+                        InputDecoration(hintText: "Deskripsi singkat/alamat"),
                   )
                 ],
               ),
