@@ -5,6 +5,7 @@ import 'package:swab_in/screens/create_lokasi.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/lokasi.dart';
+import 'package:intl/intl.dart';
 
 class LokasiHomePage extends StatefulWidget {
   static const routeName = '/forum';
@@ -46,6 +47,7 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                  Text("Author - " + DateFormat.yMMMEd().format(DateTime.now())),
                                   SizedBox(
                                     height: 180.0,
                                     child: Ink.image(
@@ -133,6 +135,7 @@ Future<List<Post>> fetchPost() async {
     Post posts = Post(
         lokasi: d["fields"]["lokasi"],
         detail: d["fields"]["detail"],
+        date_posted: d["fields"]["date_posted"],
         lokasi_pic: d["fields"]["lokasi_pic"],
         pk: d["pk"]);
     result.add(posts);
