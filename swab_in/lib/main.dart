@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:swab_in/aboutus.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(AboutUs());
 }
 
 class MyApp extends StatelessWidget {
