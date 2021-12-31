@@ -17,7 +17,21 @@ class ListForumHomePage extends StatefulWidget {
 class ListForumHomePageState extends State<ListForumHomePage> {
   static const routeName = '/forum';
   var args;
+  String? user;
   
+   @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+  
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+    });
+  }
+
   Future<List<Forum>> fetchForum() async {
     args = ModalRoute.of(context)!.settings.arguments;
     String url = "http://127.0.0.1:8000/forum/json_forum";
@@ -213,7 +227,9 @@ class ListForumHomePageState extends State<ListForumHomePage> {
          ),
          ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: 
+      user != null
+      ? FloatingActionButton(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
           child: Icon(
             Icons.add,
@@ -221,7 +237,8 @@ class ListForumHomePageState extends State<ListForumHomePage> {
           ),
           onPressed: () {
               Navigator.pushNamed(context, '/add-forum', arguments: args);
-          }),
+          })
+        : SizedBox(height: 15),
     );
   }
 }
