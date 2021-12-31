@@ -12,10 +12,10 @@ class AddExperienceScreen extends StatefulWidget {
   const AddExperienceScreen({Key? key}) : super(key: key);
 
   @override
-  AddForumState createState() => AddForumState();
+  AddExperienceState createState() => AddExperienceState();
 }
 
-class AddForumState extends State<AddExperienceScreen> {
+class AddExperienceState extends State<AddExperienceScreen> {
   final _formKey = GlobalKey<FormState>();
   late Experience _experience;
   var args;

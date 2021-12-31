@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swab_in/screens/aboutus.dart';
+import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
 
 import '../screens/info_swab_screen.dart';
@@ -31,18 +32,18 @@ class MainDrawer extends StatelessWidget {
           Container(
             height: 120,
             width: double.infinity,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             alignment: Alignment.centerLeft,
-            color: Theme.of(context).accentColor,
-            child: Text(
+            color: const Color.fromRGBO(79, 133, 235, 1),
+            child: const Text(
               'Swab.In',
               style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 30,
-                  color: Theme.of(context).primaryColor),
+                  color: Colors.white),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           buildListTile('Home', Icons.home, () {
@@ -60,6 +61,9 @@ class MainDrawer extends StatelessWidget {
           }),
           buildListTile('Artikel', Icons.article, () {
             Navigator.of(context).pushReplacementNamed('/');
+          }),
+          buildListTile('Login', Icons.login, () {
+            Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           }),
         ],
       ),
