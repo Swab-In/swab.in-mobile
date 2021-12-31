@@ -14,7 +14,6 @@ class CreateLokasi extends StatefulWidget {
 class _CreateLokasiState extends State<CreateLokasi> {
   final _formKey = GlobalKey<FormState>();
   late Post _post;
-  static const routeName = '/add-forum';
 
   TextEditingController authorController = TextEditingController();
   TextEditingController lokasiController = TextEditingController();
