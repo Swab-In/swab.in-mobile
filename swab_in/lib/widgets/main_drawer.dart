@@ -3,6 +3,8 @@ import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
 
 import '../screens/info_swab_screen.dart';
+import '../screens/info_vaksin_screen.dart';
+
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, VoidCallback handler) {
@@ -48,8 +50,11 @@ class MainDrawer extends StatelessWidget {
           buildListTile('Home', Icons.home, () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
-          buildListTile('Informasi', Icons.menu_book, () {
+          buildListTile('Swab', Icons.menu_book, () {
             Navigator.of(context).pushReplacementNamed(InfoSwabScreen.routeName);
+          }),
+          buildListTile('Vaksin', Icons.menu_book, () {
+            Navigator.of(context).pushReplacementNamed(InfoVaksinScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
             Navigator.of(context).pushReplacementNamed('/');
