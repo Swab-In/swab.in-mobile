@@ -210,6 +210,7 @@ class KomentarScreen extends State<KomentarState> {
                                         )
                                         .then((value) => {
                                               setState(() {
+                                                komentarController.clear();
                                                 List<Komentar> lst =
                                                     parseKomentar(value.body);
                                                 firstfetch = false;
