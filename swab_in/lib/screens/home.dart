@@ -105,13 +105,12 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FloatingActionButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CreateLokasi()));
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Colors.blueAccent
-            )
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CreateLokasi()));
+                },
+                child: Icon(Icons.add),
+                backgroundColor: Colors.blueAccent)
           ],
         ),
       ),

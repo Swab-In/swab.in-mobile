@@ -14,19 +14,19 @@ class _CreateLokasiState extends State<CreateLokasi> {
   late String author, lokasi, detail;
 
   upload() async {
-    final response = await http.post(Uri.parse("http://127.0.0.1:8000/lokasi/json"));
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
-    body: jsonEncode(<String, dynamic>{
-      'lokasi': lokasi,
-      'detail': detail,
-      'date_posted' : '-',
-      'lokasi_pic' : '-',
-      'author' : '-',
-    });
-    print(response);
-    print(response.body);
+    // final response = await http.post(Uri.parse("http://127.0.0.1:8000/lokasi/json"));
+    // headers: <String, String>{
+    //   'Content-Type': 'application/json; charset=UTF-8',
+    // };
+    // body: jsonEncode(<String, dynamic>{
+    //   'lokasi': lokasi,
+    //   'detail': detail,
+    //   'date_posted' : '-',
+    //   'lokasi_pic' : '-',
+    //   'author' : '-',
+    // });
+    // print(response);
+    // print(response.body);
     Navigator.pop(context);
   }
 
