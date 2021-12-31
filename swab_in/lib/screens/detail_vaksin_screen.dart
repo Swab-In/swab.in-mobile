@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/vaksin.dart';
 import '../models/vaksin_experience.dart';
@@ -16,8 +17,21 @@ class DetailVaksinScreen extends StatefulWidget {
 }
 
 class DetailVaksinState extends State<DetailVaksinScreen> {
+  String? user;
   var args;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+    });
+  }
   Future<List<VaksinExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
     String url = "http://127.0.0.1:8000/swab-vaksin/json-vaksin";
@@ -268,15 +282,18 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-          child: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/add-experience-vaksin', arguments: args);
-          }),
-    );
+      floatingActionButton:
+        user != null
+          ? FloatingActionButton(
+            backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+            child: Icon(
+              Icons.add,
+              size: 30,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/add-experience-vaksin', arguments: args);
+            })
+          : SizedBox(height: 15),
+  );
   }
 }
