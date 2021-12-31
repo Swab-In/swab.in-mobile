@@ -93,6 +93,7 @@ class KomentarScreen extends State<KomentarState> {
   late Future<List<Forum>> futureForum;
   late Future<List<Komentar>> futureKomentar;
   var list = <Widget>[];
+  bool firstfetch = true;
 
   TextEditingController komentarController = TextEditingController();
 
@@ -192,25 +193,26 @@ class KomentarScreen extends State<KomentarState> {
                             margin: const EdgeInsets.only(top: 10, bottom: 10),
                             child: ElevatedButton(
                                 onPressed: () async {
-                                  final response = await http
-                                      .post(
-                                        Uri.parse(
-                                            'http://10.0.2.2:8000/forum/komentar_post'),
-                                        headers: <String, String>{
-                                          'Content-Type':
-                                              'application/json; charset=UTF-8',
-                                        },
-                                        body: jsonEncode(<String, dynamic>{
-                                          'komentar': komentarController.text,
-                                          'forumId': 1,
-                                          'userId': 1
-                                        }),
-                                      )
-                                      .then((value) => {
-                                            setState(() {
-                                              List<Komentar> lst =
-                                                  parseKomentar(value.body);
+                                  if (komentarController.text.isNotEmpty) {
+                                    await http
+                                        .post(
+                                          Uri.parse(
+                                              'http://10.0.2.2:8000/forum/komentar_post'),
+                                          headers: <String, String>{
+                                            'Content-Type':
+                                                'application/json; charset=UTF-8',
+                                          },
+                                          body: jsonEncode(<String, dynamic>{
+                                            'komentar': komentarController.text,
+                                            'forumId': 1,
+                                            'userId': 1
+                                          }),
+                                        )
+                                        .then((value) => {
                                               setState(() {
+                                                List<Komentar> lst =
+                                                    parseKomentar(value.body);
+                                                firstfetch = false;
                                                 list.add(Container(
                                                   child: Column(
                                                     crossAxisAlignment:
@@ -236,21 +238,23 @@ class KomentarScreen extends State<KomentarState> {
                                                       const EdgeInsets.fromLTRB(
                                                           0, 10, 0, 10),
                                                 ));
-                                              });
-                                            }),
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              24)),
-                                                  content: const Text(
-                                                      'Komentar berhasil ditambahkan')),
-                                            )
-                                          });
+                                              }),
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        24)),
+                                                    content: const Text(
+                                                        'Komentar berhasil ditambahkan')),
+                                              )
+                                            });
+                                  }
                                 },
                                 child: Container(
                                   padding:
@@ -284,25 +288,28 @@ class KomentarScreen extends State<KomentarState> {
                         future: futureKomentar,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            for (int i = 0; i < snapshot.data!.length; i++) {
-                              list.add(Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      snapshot.data![i].userId.capitalize(),
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                            if (firstfetch) {
+                              for (int i = 0; i < snapshot.data!.length; i++) {
+                                list.add(Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data![i].userId.capitalize(),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(snapshot.data![i].komentar),
-                                  ],
-                                ),
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              ));
+                                      const SizedBox(height: 10),
+                                      Text(snapshot.data![i].komentar),
+                                    ],
+                                  ),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                ));
+                              }
                             }
                             return Column(
                               children: list,
