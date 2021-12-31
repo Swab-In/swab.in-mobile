@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swab_in/screens/artikel.dart';
+import 'package:swab_in/screens/artikel_list.dart';
 import 'package:swab_in/screens/main_screen.dart';
 
 import '../screens/info_swab_screen.dart';
