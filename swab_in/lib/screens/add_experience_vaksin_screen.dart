@@ -2,30 +2,29 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import '../models/swab.dart';
-import '../models/experience.dart';
-import '../screens/info_swab_screen.dart';
-import '../screens/detail_swab_screen.dart';
+import '../models/vaksin_experience.dart';
+import '../screens/info_vaksin_screen.dart';
+import '../screens/detail_vaksin_screen.dart';
 
-class AddExperienceScreen extends StatefulWidget {
-  static const routeName = '/add-experience';
-  const AddExperienceScreen({Key? key}) : super(key: key);
+class AddExperienceVaksinScreen extends StatefulWidget {
+  static const routeName = '/add-experience-vaksin';
+  const AddExperienceVaksinScreen({Key? key}) : super(key: key);
 
   @override
-  AddForumState createState() => AddForumState();
+  AddExperienceVaksinState createState() => AddExperienceVaksinState();
 }
 
-class AddForumState extends State<AddExperienceScreen> {
+class AddExperienceVaksinState extends State<AddExperienceVaksinScreen> {
   final _formKey = GlobalKey<FormState>();
-  late Experience _experience;
+  late VaksinExperience _experience;
   var args;
 
   TextEditingController experieneContoller = TextEditingController();
 
-  Future<void> createExperience(BuildContext context) async {
+  Future<void> createVaksinExperience(BuildContext context) async {
     int no = 1;
     var response = await http.get(
-      Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab"),
+      Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-vaksin"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -37,7 +36,7 @@ class AddForumState extends State<AddExperienceScreen> {
         no = d["pk"];
         try {
           print(experieneContoller.text);
-          var url = "http://127.0.0.1:8000/swab-vaksin/add-experience";
+          var url = "http://127.0.0.1:8000/swab-vaksin/add-experience-vaksin";
           var response = await http.post(Uri.parse(url),
               headers: {
                 'Content-Type': 'application/json',
@@ -45,8 +44,8 @@ class AddForumState extends State<AddExperienceScreen> {
               },
               body: jsonEncode({
                 'penulis': "fitri",
-                'pengalamanSwab': experieneContoller.text,
-                'swab_id': no,
+                'pengalamanVaksin': experieneContoller.text,
+                'vaksin_id': no,
               }));
         } catch (error) {
           print(error);
@@ -55,13 +54,13 @@ class AddForumState extends State<AddExperienceScreen> {
     }
 
     Navigator.of(context).pop(
-      DetailSwabScreen.routeName    
+      DetailVaksinScreen.routeName    
     );
     Navigator.of(context).pop(
-      InfoSwabScreen.routeName    
+      InfoVaksinScreen.routeName    
     );
     Navigator.of(context).pushNamed(
-      DetailSwabScreen.routeName,
+      DetailVaksinScreen.routeName,
       arguments: no,
     );
   }
@@ -124,7 +123,7 @@ class AddForumState extends State<AddExperienceScreen> {
                           );
                         } else {
                           print("valid");
-                          createExperience(context);
+                          createVaksinExperience(context);
                         }
                       }),
                 ),
