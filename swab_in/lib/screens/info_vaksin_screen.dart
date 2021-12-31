@@ -2,30 +2,30 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../models/swab.dart';
+import '../models/vaksin.dart';
 import '../widgets/main_drawer.dart';
-import '../screens/detail_swab_screen.dart';
+import '../screens/detail_vaksin_screen.dart';
 
-class InfoSwabScreen extends StatefulWidget {
-  static const routeName = '/informasi-swab';
-  const InfoSwabScreen({Key? key}) : super(key: key);
+class InfoVaksinScreen extends StatefulWidget {
+  static const routeName = '/informasi-vaksin';
+  const InfoVaksinScreen({Key? key}) : super(key: key);
 
   @override
-  _InfoSwabState createState() => _InfoSwabState();
+  _InfoVaksinState createState() => _InfoVaksinState();
 }
 
-class _InfoSwabState extends State<InfoSwabScreen> {
+class _InfoVaksinState extends State<InfoVaksinScreen> {
   late Future futurePost;
 
   @override
   void initState() {
     super.initState();
-    futurePost = fetchInfoSwab();
+    futurePost = fetchInfoVaksin();
   }
 
   void selectCategory(BuildContext ctx, int pk) {
     Navigator.of(ctx).pushNamed(
-      DetailSwabScreen.routeName,
+      DetailVaksinScreen.routeName,
       arguments: pk,
     );
   }
@@ -35,7 +35,7 @@ class _InfoSwabState extends State<InfoSwabScreen> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-          title: Text("Informasi Swab")),
+          title: Text("Informasi Vaksin")),
       drawer: MainDrawer(),
       body: Card(
         child: FutureBuilder(
@@ -102,44 +102,25 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                     Row(
                                       children: const <Widget>[
                                         Icon(
+                                          Icons.schedule_rounded
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 3,
+                                        horizontal: 3,
+                                      ),
+                                      child: Text(snapshot.data[index].frekuensi),
+                                    ),
+                                    Row(
+                                      children: const <Widget>[
+                                        Icon(
                                           Icons.thumb_up,
-                                        ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
-                                        //Text(akurasi),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 3,
-                                        horizontal: 3,
-                                      ),
-                                      child: Text(snapshot.data[index].akurasi)
-                                    ),
-                                    Row(
-                                      children: const <Widget>[
-                                        Icon(
-                                          Icons.work,
-                                        ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 3,
-                                        horizontal: 3,
-                                      ),
-                                      child: Text(snapshot.data[index].prosedur),
-                                    ),
-                                    Row(
-                                      children: const <Widget>[
-                                        Icon(
-                                          Icons.paid,
                                         ),
                                         SizedBox(
                                           width: 6,
@@ -156,7 +137,7 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                         vertical: 3,
                                         horizontal: 3,
                                       ),
-                                      child: Text(snapshot.data[index].price),
+                                      child: Text(snapshot.data[index].efikasi),
                                     ),
                                   ],
                                 ),
@@ -179,8 +160,8 @@ class _InfoSwabState extends State<InfoSwabScreen> {
   }
 }
 
-Future<List<Swab>> fetchInfoSwab() async {
-  var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab");
+Future<List<Vaksin>> fetchInfoVaksin() async {
+  var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-vaksin");
   var response = await http.get(
     url,
     headers: {
@@ -190,13 +171,13 @@ Future<List<Swab>> fetchInfoSwab() async {
   );
 
   var data = jsonDecode(utf8.decode(response.bodyBytes));
-  List<Swab> result = [];
+  List<Vaksin> result = [];
   for (var d in data) {
-    Swab informations = Swab(
+    Vaksin informations = Vaksin(
         nama: d["fields"]["nama"],
-        price: d["fields"]["price"],
-        akurasi: d["fields"]["akurasi"],
-        prosedur: d["fields"]["prosedur"],
+        produsen: d["fields"]["produsen"],
+        frekuensi: d["fields"]["frekuensi"],
+        efikasi: d["fields"]["efikasi"],
         deskripsi: d["fields"]["deskripsi"],
         gambar: d["fields"]["gambar"],
         pk: d["pk"]);

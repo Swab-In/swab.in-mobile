@@ -3,24 +3,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/swab.dart';
-import '../models/swab_experience.dart';
+import '../models/vaksin.dart';
+import '../models/vaksin_experience.dart';
 
-class DetailSwabScreen extends StatefulWidget {
-  static const routeName = '/detail-swab';
+class DetailVaksinScreen extends StatefulWidget {
+  static const routeName = '/detail-vaksin';
 
-  const DetailSwabScreen({Key? key, arguments}) : super(key: key);
+  const DetailVaksinScreen({Key? key, arguments}) : super(key: key);
 
   @override
-  DetailSwabState createState() => DetailSwabState();
+  DetailVaksinState createState() => DetailVaksinState();
 }
 
-class DetailSwabState extends State<DetailSwabScreen> {
+class DetailVaksinState extends State<DetailVaksinScreen> {
   var args;
 
-  Future<List<SwabExperience>> fetchExperience() async {
+  Future<List<VaksinExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://127.0.0.1:8000/swab-vaksin/json-swab";
+    String url = "http://127.0.0.1:8000/swab-vaksin/json-vaksin";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -30,13 +30,13 @@ class DetailSwabState extends State<DetailSwabScreen> {
         },
       );
       var data = jsonDecode(utf8.decode(response.bodyBytes));
-      List<SwabExperience> result = [];
+      List<VaksinExperience> result = [];
       for (var d in data) {
-        if (d["fields"]["swab_id"] == args) {
-          SwabExperience experiences = SwabExperience(
+        if (d["fields"]["vaksin_id"] == args) {
+          VaksinExperience experiences = VaksinExperience(
               penulis: d["fields"]["penulis"],
-              pengalamanSwab: d["fields"]["pengalamanSwab"],
-              swabId: d["fields"]["swab_id"],
+              pengalamanVaksin: d["fields"]["pengalamanVaksin"],
+              vaksinId: d["fields"]["vaksin_id"],
               pk: d["pk"]);
           result.add(experiences);
         }
@@ -48,9 +48,9 @@ class DetailSwabState extends State<DetailSwabScreen> {
     }
   }
 
-  Future<List<Swab>> fetchInfoSwab() async {
+  Future<List<Vaksin>> fetchInfoVaksin() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab");
+    var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-vaksin");
     try {
       var response = await http.get(
         url,
@@ -60,14 +60,14 @@ class DetailSwabState extends State<DetailSwabScreen> {
         },
       );
       var data = jsonDecode(utf8.decode(response.bodyBytes));
-      List<Swab> result = [];
+      List<Vaksin> result = [];
       for (var d in data) {
         if (d["pk"] == args) {
-          Swab informations = Swab(
+          Vaksin informations = Vaksin(
               nama: d["fields"]["nama"],
-              price: d["fields"]["price"],
-              akurasi: d["fields"]["akurasi"],
-              prosedur: d["fields"]["prosedur"],
+              produsen: d["fields"]["produsen"],
+              frekuensi: d["fields"]["frekuensi"],
+              efikasi: d["fields"]["efikasi"],
               deskripsi: d["fields"]["deskripsi"],
               gambar: d["fields"]["gambar"],
               pk: d["pk"]);
@@ -118,7 +118,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
           child: Column(
             children: [
               FutureBuilder(
-                  future: fetchInfoSwab(),
+                  future: fetchInfoVaksin(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -154,7 +154,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
                                                       const EdgeInsets.only(
                                                           top: 8.0),
                                                   child: Text(
-                                                    'Harga: ${snapshot.data[index].price}',
+                                                    'Produsen: ${snapshot.data[index].produsen}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyText1,
@@ -165,7 +165,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
                                                       const EdgeInsets.only(
                                                           top: 8.0),
                                                   child: Text(
-                                                    'Akurasi: ${snapshot.data[index].akurasi}',
+                                                    'Frekuensi: ${snapshot.data[index].frekuensi}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyText1,
@@ -176,7 +176,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
                                                       const EdgeInsets.only(
                                                           top: 8.0),
                                                   child: Text(
-                                                    'Prosedur: ${snapshot.data[index].prosedur}',
+                                                    'Efikasi: ${snapshot.data[index].efikasi}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyText1,
@@ -237,7 +237,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
                                         Container(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            snapshot.data[index].pengalamanSwab,
+                                            snapshot.data[index].pengalamanVaksin,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1,
@@ -275,7 +275,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
             size: 30,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/add-experience-swab', arguments: args);
+            Navigator.pushNamed(context, '/add-experience-vaksin', arguments: args);
           }),
     );
   }

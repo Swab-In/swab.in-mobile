@@ -7,6 +7,8 @@ import "../screens/string_extension.dart";
 import 'package:http/http.dart' as http;
 
 import '../screens/info_swab_screen.dart';
+import '../screens/info_vaksin_screen.dart';
+
 
 class MainDrawer extends StatefulWidget {
   static const routeName = '/home';
@@ -82,9 +84,11 @@ class MainDrawerState extends State<MainDrawer> {
           buildListTile('Home', Icons.home, () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
-          buildListTile('Informasi', Icons.menu_book, () {
-            Navigator.of(context)
-                .pushReplacementNamed(InfoSwabScreen.routeName);
+          buildListTile('Swab', Icons.menu_book, () {
+            Navigator.of(context).pushReplacementNamed(InfoSwabScreen.routeName);
+          }),
+          buildListTile('Vaksin', Icons.menu_book, () {
+            Navigator.of(context).pushReplacementNamed(InfoVaksinScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
             Navigator.of(context).pushReplacementNamed('/');
