@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'username': usernameController.text,
                     'password': passwordController.text,
                   }));
-                  // print(response.body);
+                  print(response.body);
                   (Navigator.push(
                     context,
                     MaterialPageRoute(
