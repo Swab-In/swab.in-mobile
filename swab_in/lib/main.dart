@@ -1,6 +1,11 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:swab_in/screens/artikel_list.dart';
 import 'package:swab_in/screens/detail_swab_screen.dart';
+import 'package:swab_in/screens/aboutus.dart';
+import 'package:swab_in/screens/contactus.dart';
+import 'package:swab_in/screens/detail_swab_screen.dart';
+import 'package:swab_in/screens/login_screen.dart';
 
 import './screens/komentar_screen.dart';
 import './screens/login_screen.dart';
@@ -12,6 +17,10 @@ import './screens/add_experience_swab_screen.dart';
 import './screens/info_vaksin_screen.dart';
 import './screens/add_experience_vaksin_screen.dart';
 import 'screens/artikel_detail.dart';
+
+import 'package:swab_in/screens/add_forum.dart';
+import 'package:swab_in/screens/list_forum.dart';
+import 'screens/list_lokasi.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,6 +45,8 @@ class _MyAppState extends State<MyApp> {
         ArtikelScreen.routeName: (context) => const ArtikelScreen(),
         InfoVaksinScreen.routeName: (context) => const InfoVaksinScreen(),
         DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
+        AboutUsPage.routeName: (context) => const AboutUsPage(),
+        FormScreen.routeName: (context) => const FormScreen(),
         DetailVaksinScreen.routeName: (context) => const DetailVaksinScreen(),
         AddExperienceSwabScreen.routeName: (context) =>
             const AddExperienceSwabScreen(),
@@ -44,6 +55,10 @@ class _MyAppState extends State<MyApp> {
         LoginScreen.routeName: (context) => const LoginScreen(),
         ArtikelDetailScreen.routeName: (context) =>
             const ArtikelDetailScreen(pk: 'pk', title: 'title'),
+        ListForumHomePageState.routeName: (context) =>
+            const ListForumHomePage(),
+        AddForumState.routeName: (context) => const AddForum(),
+        LokasiHomePage.routeName: (context) => const LokasiHomePage(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == KomentarScreen.routeName) {

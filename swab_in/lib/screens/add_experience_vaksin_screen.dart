@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/vaksin_experience.dart';
 import '../screens/info_vaksin_screen.dart';
@@ -18,13 +19,27 @@ class AddExperienceVaksinState extends State<AddExperienceVaksinScreen> {
   final _formKey = GlobalKey<FormState>();
   late VaksinExperience _experience;
   var args;
+  String? user;
 
   TextEditingController experieneContoller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+    });
+  }
 
   Future<void> createVaksinExperience(BuildContext context) async {
     int no = 1;
     var response = await http.get(
-      Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-vaksin"),
+      Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-vaksin"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -36,14 +51,16 @@ class AddExperienceVaksinState extends State<AddExperienceVaksinScreen> {
         no = d["pk"];
         try {
           print(experieneContoller.text);
-          var url = "http://127.0.0.1:8000/swab-vaksin/add-experience-vaksin";
+          print(user);
+          var url =
+              "http://swab-in.herokuapp.com/swab-vaksin/add-experience-vaksin";
           var response = await http.post(Uri.parse(url),
               headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
               },
               body: jsonEncode({
-                'penulis': "fitri",
+                'penulis': user,
                 'pengalamanVaksin': experieneContoller.text,
                 'vaksin_id': no,
               }));
@@ -53,12 +70,8 @@ class AddExperienceVaksinState extends State<AddExperienceVaksinScreen> {
       }
     }
 
-    Navigator.of(context).pop(
-      DetailVaksinScreen.routeName    
-    );
-    Navigator.of(context).pop(
-      InfoVaksinScreen.routeName    
-    );
+    Navigator.of(context).pop(DetailVaksinScreen.routeName);
+    Navigator.of(context).pop(InfoVaksinScreen.routeName);
     Navigator.of(context).pushNamed(
       DetailVaksinScreen.routeName,
       arguments: no,

@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/swab.dart';
 import '../models/swab_experience.dart';
@@ -16,11 +17,25 @@ class DetailSwabScreen extends StatefulWidget {
 }
 
 class DetailSwabState extends State<DetailSwabScreen> {
+  String? user;
   var args;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      user = prefs.getString('userName');
+    });
+  }
 
   Future<List<SwabExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://127.0.0.1:8000/swab-vaksin/json-swab";
+    String url = "http://swab-in.herokuapp.com/swab-vaksin/json-swab";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -50,7 +65,8 @@ class DetailSwabState extends State<DetailSwabScreen> {
 
   Future<List<Swab>> fetchInfoSwab() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab");
+    var url =
+        Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-swab");
     try {
       var response = await http.get(
         url,
@@ -268,15 +284,18 @@ class DetailSwabState extends State<DetailSwabScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-          child: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/add-experience-swab', arguments: args);
-          }),
+      floatingActionButton: user != null
+          ? FloatingActionButton(
+              backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+              child: Icon(
+                Icons.add,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/add-experience-swab',
+                    arguments: args);
+              })
+          : SizedBox(height: 15),
     );
   }
 }

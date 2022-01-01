@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/list_lokasi.dart';
+import 'package:swab_in/screens/aboutus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/artikel_list.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
@@ -84,26 +88,23 @@ class MainDrawerState extends State<MainDrawer> {
           buildListTile('Home', Icons.home, () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
-          buildListTile('Swab', Icons.menu_book, () {
+          buildListTile('Swab', Icons.medication, () {
             Navigator.of(context)
                 .pushReplacementNamed(InfoSwabScreen.routeName);
           }),
-          buildListTile('Vaksin', Icons.menu_book, () {
+          buildListTile('Vaksin', Icons.coronavirus_outlined, () {
             Navigator.of(context)
                 .pushReplacementNamed(InfoVaksinScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacementNamed(AboutUsPage.routeName);
           }),
           buildListTile('Lokasi', Icons.place, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context)
+                .pushReplacementNamed(LokasiHomePage.routeName);
           }),
           buildListTile('Artikel', Icons.article, () {
             Navigator.of(context).pushReplacementNamed(ArtikelScreen.routeName);
-          }),
-          buildListTile('Komentar', Icons.comment, () {
-            Navigator.of(context).pushReplacementNamed(KomentarScreen.routeName,
-                arguments: KomentarArguments(title: 'asu', pk: "1"));
           }),
           user == null
               ? buildListTile('Login', Icons.login, () {

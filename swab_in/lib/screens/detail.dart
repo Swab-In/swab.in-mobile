@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:swab_in/aboutus.dart';
-import 'package:swab_in/deskripsi.dart';
-import 'package:swab_in/style.dart';
+import 'package:swab_in/screens/aboutus.dart';
+import 'package:swab_in/models/deskripsi.dart';
+import 'package:swab_in/style-about.dart';
 
 class DetailScreen extends StatefulWidget {
   final About isi;

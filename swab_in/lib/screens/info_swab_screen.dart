@@ -97,7 +97,8 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                               Padding(
                                 padding: EdgeInsets.all(20),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     Row(
                                       children: const <Widget>[
@@ -111,13 +112,13 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                       ],
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 3,
-                                        horizontal: 3,
-                                      ),
-                                      child: Text(snapshot.data[index].akurasi)
-                                    ),
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 3,
+                                          horizontal: 3,
+                                        ),
+                                        child:
+                                            Text(snapshot.data[index].akurasi)),
                                     Row(
                                       children: const <Widget>[
                                         Icon(
@@ -134,7 +135,8 @@ class _InfoSwabState extends State<InfoSwabScreen> {
                                         vertical: 3,
                                         horizontal: 3,
                                       ),
-                                      child: Text(snapshot.data[index].prosedur),
+                                      child:
+                                          Text(snapshot.data[index].prosedur),
                                     ),
                                     Row(
                                       children: const <Widget>[
@@ -180,7 +182,8 @@ class _InfoSwabState extends State<InfoSwabScreen> {
 }
 
 Future<List<Swab>> fetchInfoSwab() async {
-  var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab");
+  var url =
+      Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-swab");
   var response = await http.get(
     url,
     headers: {
