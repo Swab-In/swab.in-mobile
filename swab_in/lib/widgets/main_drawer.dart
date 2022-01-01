@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:swab_in/screens/list_lokasi.dart';
 import 'package:swab_in/screens/aboutus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swab_in/screens/artikel_list.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
@@ -12,7 +13,6 @@ import 'package:http/http.dart' as http;
 
 import '../screens/info_swab_screen.dart';
 import '../screens/info_vaksin_screen.dart';
-
 
 class MainDrawer extends StatefulWidget {
   static const routeName = '/home';
@@ -89,19 +89,22 @@ class MainDrawerState extends State<MainDrawer> {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
           buildListTile('Swab', Icons.medication, () {
-            Navigator.of(context).pushReplacementNamed(InfoSwabScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(InfoSwabScreen.routeName);
           }),
           buildListTile('Vaksin', Icons.coronavirus_outlined, () {
-            Navigator.of(context).pushReplacementNamed(InfoVaksinScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(InfoVaksinScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
             Navigator.of(context).pushReplacementNamed(AboutUsPage.routeName);
           }),
           buildListTile('Lokasi', Icons.place, () {
-            Navigator.of(context).pushReplacementNamed(LokasiHomePage.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(LokasiHomePage.routeName);
           }),
           buildListTile('Artikel', Icons.article, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacementNamed(ArtikelScreen.routeName);
           }),
           user == null
               ? buildListTile('Login', Icons.login, () {

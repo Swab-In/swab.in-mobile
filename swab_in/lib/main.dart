@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/artikel_list.dart';
+import 'package:swab_in/screens/detail_swab_screen.dart';
 import 'package:swab_in/screens/aboutus.dart';
 import 'package:swab_in/screens/contactus.dart';
 import 'package:swab_in/screens/detail_swab_screen.dart';
@@ -14,9 +16,12 @@ import './screens/info_swab_screen.dart';
 import './screens/add_experience_swab_screen.dart';
 import './screens/info_vaksin_screen.dart';
 import './screens/add_experience_vaksin_screen.dart';
+import 'screens/artikel_detail.dart';
+
 import 'package:swab_in/screens/add_forum.dart';
 import 'package:swab_in/screens/list_forum.dart';
 import 'screens/list_lokasi.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -36,17 +41,24 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (ctx) => MainScreen(),
         InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
+        DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
+        ArtikelScreen.routeName: (context) => const ArtikelScreen(),
         InfoVaksinScreen.routeName: (context) => const InfoVaksinScreen(),
         DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
         AboutUsPage.routeName: (context) => const AboutUsPage(),
         FormScreen.routeName: (context) => const FormScreen(),
         DetailVaksinScreen.routeName: (context) => const DetailVaksinScreen(),
-        AddExperienceSwabScreen.routeName: (context) => const AddExperienceSwabScreen(),
-        AddExperienceVaksinScreen.routeName: (context) => const AddExperienceVaksinScreen(),
+        AddExperienceSwabScreen.routeName: (context) =>
+            const AddExperienceSwabScreen(),
+        AddExperienceVaksinScreen.routeName: (context) =>
+            const AddExperienceVaksinScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
-        ListForumHomePageState.routeName: (context) => const ListForumHomePage(),
-        AddForumState.routeName: (context) => const AddForum(),       
-        LokasiHomePage.routeName: (context) => const LokasiHomePage(),   
+        ArtikelDetailScreen.routeName: (context) =>
+            const ArtikelDetailScreen(pk: 'pk', title: 'title'),
+        ListForumHomePageState.routeName: (context) =>
+            const ListForumHomePage(),
+        AddForumState.routeName: (context) => const AddForum(),
+        LokasiHomePage.routeName: (context) => const LokasiHomePage(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == KomentarScreen.routeName) {
