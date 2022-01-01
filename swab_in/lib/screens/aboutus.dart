@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:swab_in/contactus.dart';
-import 'package:swab_in/style.dart';
-import 'package:swab_in/widgets.dart';
+import 'package:swab_in/screens/contactus.dart';
+import 'package:swab_in/style-about.dart';
+import 'package:swab_in/widgets/aboutwidget.dart';
+import '../widgets/main_drawer.dart';
 
 class AboutUs extends StatelessWidget {
   @override
@@ -19,6 +18,7 @@ class AboutUs extends StatelessWidget {
 }
 
 class AboutUsPage extends StatefulWidget {
+  static const routeName = '/about-us';
   const AboutUsPage({Key? key}) : super(key: key);
 
   @override
@@ -29,6 +29,7 @@ class _AboutUsState extends State<AboutUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MainDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
@@ -53,8 +54,8 @@ class _AboutUsState extends State<AboutUsPage> {
               Text("Ada yang ingin disampaikan?"),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FormScreen()));
+                  Navigator.of(context)
+                      .pushReplacementNamed(FormScreen.routeName);
                 },
                 child: new Text("Contact Us"),
               ),

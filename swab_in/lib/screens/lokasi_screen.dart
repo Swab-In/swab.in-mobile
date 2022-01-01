@@ -47,7 +47,9 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Author - " + DateFormat.yMMMEd().format(DateTime.now())),
+                                  Text("Author - " +
+                                      DateFormat.yMMMEd()
+                                          .format(DateTime.now())),
                                   SizedBox(
                                     height: 180.0,
                                     child: Ink.image(
@@ -121,7 +123,7 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
 }
 
 Future<List<Post>> fetchPost() async {
-  var url = Uri.parse("http://127.0.0.1:8000/lokasi/json");
+  var url = Uri.parse("http://swab-in.herokuapp.com/lokasi/json");
   var response = await http.get(
     url,
     headers: {

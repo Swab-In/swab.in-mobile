@@ -35,7 +35,7 @@ class DetailSwabState extends State<DetailSwabScreen> {
 
   Future<List<SwabExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://127.0.0.1:8000/swab-vaksin/json-swab";
+    String url = "http://swab-in.herokuapp.com/swab-vaksin/json-swab";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -65,7 +65,8 @@ class DetailSwabState extends State<DetailSwabScreen> {
 
   Future<List<Swab>> fetchInfoSwab() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab");
+    var url =
+        Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-swab");
     try {
       var response = await http.get(
         url,
@@ -283,17 +284,17 @@ class DetailSwabState extends State<DetailSwabScreen> {
           ),
         ),
       ),
-      floatingActionButton: 
-        user != null
-        ? FloatingActionButton(
-            backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-            child: Icon(
-              Icons.add,
-              size: 30,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/add-experience-swab', arguments: args);
-          })
+      floatingActionButton: user != null
+          ? FloatingActionButton(
+              backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+              child: Icon(
+                Icons.add,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/add-experience-swab',
+                    arguments: args);
+              })
           : SizedBox(height: 15),
     );
   }

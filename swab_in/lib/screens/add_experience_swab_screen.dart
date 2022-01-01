@@ -22,7 +22,7 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
   String? user;
 
   TextEditingController experieneContoller = TextEditingController();
-  
+
   @override
   void initState() {
     super.initState();
@@ -39,7 +39,7 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
   Future<void> createSwabExperience(BuildContext context) async {
     int no = 1;
     var response = await http.get(
-      Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-swab"),
+      Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-swab"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -52,7 +52,8 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
         try {
           print(experieneContoller.text);
           print(user);
-          var url = "http://127.0.0.1:8000/swab-vaksin/add-experience-swab";
+          var url =
+              "http://swab-in.herokuapp.com/swab-vaksin/add-experience-swab";
           var response = await http.post(Uri.parse(url),
               headers: {
                 'Content-Type': 'application/json',
@@ -69,12 +70,8 @@ class AddExperienceSwabState extends State<AddExperienceSwabScreen> {
       }
     }
 
-    Navigator.of(context).pop(
-      DetailSwabScreen.routeName    
-    );
-    Navigator.of(context).pop(
-      InfoSwabScreen.routeName    
-    );
+    Navigator.of(context).pop(DetailSwabScreen.routeName);
+    Navigator.of(context).pop(InfoSwabScreen.routeName);
     Navigator.of(context).pushNamed(
       DetailSwabScreen.routeName,
       arguments: no,

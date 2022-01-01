@@ -1,5 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:swab_in/screens/aboutus.dart';
+import 'package:swab_in/screens/contactus.dart';
+import 'package:swab_in/screens/detail_swab_screen.dart';
+import 'package:swab_in/screens/login_screen.dart';
 
 import './screens/komentar_screen.dart';
 import './screens/login_screen.dart';
@@ -34,24 +38,23 @@ class _MyAppState extends State<MyApp> {
         InfoSwabScreen.routeName: (context) => const InfoSwabScreen(),
         InfoVaksinScreen.routeName: (context) => const InfoVaksinScreen(),
         DetailSwabScreen.routeName: (context) => const DetailSwabScreen(),
+        AboutUsPage.routeName: (context) => const AboutUsPage(),
+        FormScreen.routeName: (context) => const FormScreen(),
         DetailVaksinScreen.routeName: (context) => const DetailVaksinScreen(),
         AddExperienceSwabScreen.routeName: (context) => const AddExperienceSwabScreen(),
         AddExperienceVaksinScreen.routeName: (context) => const AddExperienceVaksinScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
-        ListForumHomePageState.routeName: (context) => ListForumHomePage(),
-        AddForumState.routeName: (context) => AddForum(),       
-        LokasiHomePage.routeName: (context) => LokasiHomePage(),   
+        ListForumHomePageState.routeName: (context) => const ListForumHomePage(),
+        AddForumState.routeName: (context) => const AddForum(),       
+        LokasiHomePage.routeName: (context) => const LokasiHomePage(),   
       },
       onGenerateRoute: (settings) {
-        if(settings.name == KomentarScreen.routeName  ){
+        if (settings.name == KomentarScreen.routeName) {
           final args = settings.arguments as KomentarArguments;
-          
+
           return MaterialPageRoute(
             builder: (context) {
-              return  KomentarScreen(
-                title: args.title,
-                pk: args.pk
-              );
+              return KomentarScreen(title: args.title, pk: args.pk);
             },
           );
         }

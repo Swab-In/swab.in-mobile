@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:swab_in/aboutus.dart';
-import 'package:swab_in/deskripsi.dart';
-import 'package:swab_in/style.dart';
-import 'package:swab_in/detail.dart';
+import 'package:swab_in/screens/aboutus.dart';
+import 'package:swab_in/models/deskripsi.dart';
+import 'package:swab_in/style-about.dart';
+import 'package:swab_in/screens/detail.dart';
 
 class DetailWidget extends StatelessWidget {
   const DetailWidget({Key? key}) : super(key: key);

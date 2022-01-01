@@ -32,9 +32,10 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
       user = prefs.getString('userName');
     });
   }
+
   Future<List<VaksinExperience>> fetchExperience() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://127.0.0.1:8000/swab-vaksin/json-vaksin";
+    String url = "http://swab-in.herokuapp.com/swab-vaksin/json-vaksin";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -64,7 +65,8 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
 
   Future<List<Vaksin>> fetchInfoVaksin() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://127.0.0.1:8000/swab-vaksin/json-info-vaksin");
+    var url =
+        Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-vaksin");
     try {
       var response = await http.get(
         url,
@@ -251,7 +253,8 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
                                         Container(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            snapshot.data[index].pengalamanVaksin,
+                                            snapshot
+                                                .data[index].pengalamanVaksin,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1,
@@ -282,18 +285,18 @@ class DetailVaksinState extends State<DetailVaksinScreen> {
           ),
         ),
       ),
-      floatingActionButton:
-        user != null
+      floatingActionButton: user != null
           ? FloatingActionButton(
-            backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-            child: Icon(
-              Icons.add,
-              size: 30,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, '/add-experience-vaksin', arguments: args);
-            })
+              backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+              child: Icon(
+                Icons.add,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/add-experience-vaksin',
+                    arguments: args);
+              })
           : SizedBox(height: 15),
-  );
+    );
   }
 }
