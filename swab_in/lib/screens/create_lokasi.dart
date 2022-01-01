@@ -22,7 +22,7 @@ class _CreateLokasiState extends State<CreateLokasi> {
   Future<void> createLokasi() async {
     int no;
     var response = await http.get(
-      Uri.parse("http://10.0.2.2:8000/lokasi/json"),
+      Uri.parse("http://swab-in.herokuapp.com/lokasi/json"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ class _CreateLokasiState extends State<CreateLokasi> {
       no = d["pk"];
       try {
         print("debug TRY");
-        var url = "http://10.0.2.2:8000/lokasi/add_post";
+        var url = "http://swab-in.herokuapp.com/lokasi/add_post";
         var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({

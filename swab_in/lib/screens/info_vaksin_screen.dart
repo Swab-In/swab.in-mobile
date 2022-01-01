@@ -97,13 +97,12 @@ class _InfoVaksinState extends State<InfoVaksinScreen> {
                               Padding(
                                 padding: EdgeInsets.all(20),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     Row(
                                       children: const <Widget>[
-                                        Icon(
-                                          Icons.schedule_rounded
-                                        ),
+                                        Icon(Icons.schedule_rounded),
                                         SizedBox(
                                           width: 6,
                                         ),
@@ -115,7 +114,8 @@ class _InfoVaksinState extends State<InfoVaksinScreen> {
                                         vertical: 3,
                                         horizontal: 3,
                                       ),
-                                      child: Text(snapshot.data[index].frekuensi),
+                                      child:
+                                          Text(snapshot.data[index].frekuensi),
                                     ),
                                     Row(
                                       children: const <Widget>[
@@ -161,7 +161,8 @@ class _InfoVaksinState extends State<InfoVaksinScreen> {
 }
 
 Future<List<Vaksin>> fetchInfoVaksin() async {
-  var url = Uri.parse("http://10.0.2.2:8000/swab-vaksin/json-info-vaksin");
+  var url =
+      Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-vaksin");
   var response = await http.get(
     url,
     headers: {

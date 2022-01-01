@@ -37,7 +37,7 @@ class ListForumHomePageState extends State<ListForumHomePage> {
 
   Future<List<Forum>> fetchForum() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://10.0.2.2:8000/forum/json_forum";
+    String url = "http://swab-in.herokuapp.com/forum/json_forum";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -69,7 +69,7 @@ class ListForumHomePageState extends State<ListForumHomePage> {
 
   Future<List<Post>> fetchDetailLokasi() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://10.0.2.2:8000/forum/json_lokasi");
+    var url = Uri.parse("http://swab-in.herokuapp.com/forum/json_lokasi");
     try {
       var response = await http.get(
         url,

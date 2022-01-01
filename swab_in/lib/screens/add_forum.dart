@@ -26,18 +26,18 @@ class AddForumState extends State<AddForum> {
   String? user;
   int? userId;
 
- void _loadUser() async {
+  void _loadUser() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       user = prefs.getString('userName');
       userId = prefs.getInt('user_id');
-    });  
+    });
   }
 
   Future<void> createForum() async {
     int no;
     var response = await http.get(
-      Uri.parse("http://10.0.2.2:8000/forum/json_lokasi"),
+      Uri.parse("http://swab-in.herokuapp.com/forum/json_lokasi"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -48,28 +48,24 @@ class AddForumState extends State<AddForum> {
       if (d["pk"] == args) {
         no = d["pk"];
         try {
-          var url = "http://10.0.2.2:8000/forum/add_forum";
+          var url = "http://swab-in.herokuapp.com/forum/add_forum";
           var response = await http.post(Uri.parse(url),
-            headers: {'Content-Type': 'application/json'},
+              headers: {'Content-Type': 'application/json'},
               body: jsonEncode({
-              'writer': user, 
-              'title': titleContoller.text,
-              'message': messageContoller.text,
-              'image': imageContoller.text,
-              'post_id': no,
-        }));
+                'writer': user,
+                'title': titleContoller.text,
+                'message': messageContoller.text,
+                'image': imageContoller.text,
+                'post_id': no,
+              }));
         } catch (error) {
           print(error);
         }
       }
     }
 
-    Navigator.of(context).pop(
-      ListForumHomePageState.routeName   
-    );
-    Navigator.of(context).pop(
-      LokasiHomePage.routeName    
-    );
+    Navigator.of(context).pop(ListForumHomePageState.routeName);
+    Navigator.of(context).pop(LokasiHomePage.routeName);
     Navigator.of(context).pushNamed(
       ListForumHomePageState.routeName,
       arguments: args,
@@ -82,8 +78,7 @@ class AddForumState extends State<AddForum> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(79, 133, 235, 1),
-        title: Text("Tambah Forum"
-        ),
+        title: Text("Tambah Forum"),
       ),
       body: Form(
         key: _formKey,
@@ -101,10 +96,9 @@ class AddForumState extends State<AddForum> {
                       icon: const Icon(Icons.title),
                       hintText: 'Tuliskan judul disini',
                       labelText: 'Judul',
-                        border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
                     ),
-        
                     validator: (String? value) {
                       return (value == null || value.isEmpty)
                           ? 'Judul tidak boleh kosong.'
@@ -120,11 +114,10 @@ class AddForumState extends State<AddForum> {
                       hintText: "Tuliskan diskusi disini",
                       icon: const Icon(Icons.forum),
                       border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
+                          borderRadius: BorderRadius.circular(5.0)),
                     ),
-                    
-                      minLines: 5,
-                      maxLines: 8,
+                    minLines: 5,
+                    maxLines: 8,
                     validator: (String? value) {
                       return (value == null || value.isEmpty)
                           ? 'Isi forum tidak boleh kosong.'
@@ -132,7 +125,6 @@ class AddForumState extends State<AddForum> {
                     },
                   ),
                 ),
-                
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
@@ -141,33 +133,33 @@ class AddForumState extends State<AddForum> {
                       labelText: "URL thumbnail",
                       icon: const Icon(Icons.image),
                       border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
+                          borderRadius: BorderRadius.circular(5.0)),
                     ),
-                     validator: (String? value) {
+                    validator: (String? value) {
                       return (value == null || value.isEmpty)
                           ? 'URL thumbnail tidak boleh kosong.'
                           : null;
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 12.0),
                   child: TextButton(
-                    child: const Text(
-                      "Submit",
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                    onPressed: () {
-                    if (_formKey.currentState?.validate() ?? true) {
-                      createForum();
-                      _loadUser();
-                    }
-                    }
-                  ),
+                      child: const Text(
+                        "Submit",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? true) {
+                          createForum();
+                          _loadUser();
+                        }
+                      }),
                 ),
               ],
             ),

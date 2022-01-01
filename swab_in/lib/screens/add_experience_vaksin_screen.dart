@@ -39,7 +39,7 @@ class AddExperienceVaksinState extends State<AddExperienceVaksinScreen> {
   Future<void> createVaksinExperience(BuildContext context) async {
     int no = 1;
     var response = await http.get(
-      Uri.parse("http://10.0.2.2:8000/swab-vaksin/json-info-vaksin"),
+      Uri.parse("http://swab-in.herokuapp.com/swab-vaksin/json-info-vaksin"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -52,7 +52,8 @@ class AddExperienceVaksinState extends State<AddExperienceVaksinScreen> {
         try {
           print(experieneContoller.text);
           print(user);
-          var url = "http://10.0.2.2:8000/swab-vaksin/add-experience-vaksin";
+          var url =
+              "http://swab-in.herokuapp.com/swab-vaksin/add-experience-vaksin";
           var response = await http.post(Uri.parse(url),
               headers: {
                 'Content-Type': 'application/json',

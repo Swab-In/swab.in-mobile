@@ -87,10 +87,10 @@ class MainDrawerState extends State<MainDrawer> {
           buildListTile('Home', Icons.home, () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
-          buildListTile('Swab', Icons.menu_book, () {
+          buildListTile('Swab', Icons.medication, () {
             Navigator.of(context).pushReplacementNamed(InfoSwabScreen.routeName);
           }),
-          buildListTile('Vaksin', Icons.menu_book, () {
+          buildListTile('Vaksin', Icons.coronavirus_outlined, () {
             Navigator.of(context).pushReplacementNamed(InfoVaksinScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
