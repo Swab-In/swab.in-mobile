@@ -20,7 +20,7 @@ import 'screens/artikel_detail.dart';
 
 import 'package:swab_in/screens/add_forum.dart';
 import 'package:swab_in/screens/list_forum.dart';
-import 'screens/list_lokasi.dart';
+import 'screens/lokasi_screen.dart';
 
 void main() => runApp(MyApp());
 

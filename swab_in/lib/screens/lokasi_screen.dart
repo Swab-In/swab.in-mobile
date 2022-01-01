@@ -125,7 +125,7 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
 }
 
 Future<List<Post>> fetchPost() async {
-  var url = Uri.parse("http://swab-in.herokuapp.com/lokasi/json");
+  var url = Uri.parse("https://swab-in.herokuapp.com/forum/json_lokasi");
   var response = await http.get(
     url,
     headers: {

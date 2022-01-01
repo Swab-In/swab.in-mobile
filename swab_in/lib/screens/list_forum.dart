@@ -37,7 +37,7 @@ class ListForumHomePageState extends State<ListForumHomePage> {
 
   Future<List<Forum>> fetchForum() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    String url = "http://swab-in.herokuapp.com/forum/json_forum";
+    String url = "http://127.0.0.1:8000/forum/json_forum";
     try {
       var response = await http.get(
         Uri.parse(url),
@@ -72,7 +72,7 @@ class ListForumHomePageState extends State<ListForumHomePage> {
 
   Future<List<Post>> fetchDetailLokasi() async {
     args = ModalRoute.of(context)!.settings.arguments;
-    var url = Uri.parse("http://swab-in.herokuapp.com/forum/json_lokasi");
+    var url = Uri.parse("https://swab-in.herokuapp.com/forum/json_lokasi");
     try {
       var response = await http.get(
         url,
@@ -134,14 +134,14 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        // SizedBox(
-                                        //   height: 180.0,
-                                        //   child: Ink.image(
-                                        //     image: NetworkImage(snapshot
-                                        //         .data[index].lokasi_pic),
-                                        //     fit: BoxFit.cover,
-                                        //   ),
-                                        // ),
+                                        SizedBox(
+                                          height: 180.0,
+                                          child: Ink.image(
+                                            image: NetworkImage(snapshot
+                                                .data[index].lokasi_pic),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                         Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 8.0),
@@ -201,14 +201,14 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        // SizedBox(
-                                        //   height: 180.0,
-                                        //   child: Ink.image(
-                                        //     image: NetworkImage(
-                                        //         snapshot.data[index].image),
-                                        //     fit: BoxFit.cover,
-                                        //   ),
-                                        // ),
+                                        SizedBox(
+                                          height: 180.0,
+                                          child: Ink.image(
+                                            image: NetworkImage(
+                                                snapshot.data[index].image),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                         Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 8.0),

@@ -145,7 +145,7 @@ class FormScreenState extends State<FormScreen> {
                     {
                       // Validate returns true if the form is valid, or false otherwise.
                       await http.post(
-                        Uri.parse('http://localhost:8000/about/pesan-post'),
+                        Uri.parse('https://swab-in.herokuapp.com/about/pesan-post'),
                         headers: <String, String>{
                           'Content-Type': 'application/json; charset=UTF-8'
                         },

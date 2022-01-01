@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:swab_in/screens/list_lokasi.dart';
+import 'package:swab_in/screens/lokasi_screen.dart';
 import 'package:swab_in/screens/aboutus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/artikel_list.dart';

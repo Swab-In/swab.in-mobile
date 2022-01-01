@@ -26,7 +26,7 @@ class ArtikelArguments {
 
 Future<List<Comment>> fetchComment(BuildContext context) async {
   var args = ModalRoute.of(context)!.settings.arguments as int;
-  String url = "http://127.0.0.1:8000/artikel/get_comment";
+  String url = "https://swab-in.herokuapp.com/artikel/get_comment";
   try {
     var response = await http.get(
       Uri.parse(url),
@@ -83,7 +83,7 @@ List<Artikel> parseArtikel(String responseBody) {
 
 Future<List<Artikel>> fetchArtikel(dynamic pk) async {
   final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/artikel/artikel_cards'),
+      Uri.parse('https://swab-in.herokuapp.com/artikel/artikel_cards'),
       headers: {'pk': pk});
 
   if (response.statusCode == 200) {

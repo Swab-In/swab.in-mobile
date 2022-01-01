@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/list_forum.dart';
-import 'package:swab_in/screens/list_lokasi.dart';
+import 'package:swab_in/screens/lokasi_screen.dart';
 import '../models/forum.dart';
 
 class AddForum extends StatefulWidget {
@@ -37,7 +37,7 @@ class AddForumState extends State<AddForum> {
   Future<void> createForum() async {
     int no;
     var response = await http.get(
-      Uri.parse("http://swab-in.herokuapp.com/forum/json_lokasi"),
+      Uri.parse("https://swab-in.herokuapp.com/forum/json_lokasi"),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -47,12 +47,13 @@ class AddForumState extends State<AddForum> {
     for (var d in data) {
       if (d["pk"] == args) {
         no = d["pk"];
+        print(d["pk"]);
         try {
-          var url = "http://swab-in.herokuapp.com/forum/add_forum";
+          var url = "http://127.0.0.1:8000/forum/add_forum";
           var response = await http.post(Uri.parse(url),
               headers: {'Content-Type': 'application/json'},
               body: jsonEncode({
-                'writer': user,
+                'writer': userId,
                 'title': titleContoller.text,
                 'message': messageContoller.text,
                 'image': imageContoller.text,

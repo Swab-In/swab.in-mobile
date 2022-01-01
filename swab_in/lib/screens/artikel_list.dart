@@ -42,7 +42,7 @@ List<Artikel> parseArtikel(String responseBody) {
 
 Future<List<Artikel>> fetchArtikel() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/artikel/artikel_cards'));
+      await http.get(Uri.parse('https://swab-in.herokuapp.com/artikel/artikel_cards'));
   // print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
