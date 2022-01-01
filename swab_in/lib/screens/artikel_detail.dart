@@ -4,32 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/main_screen.dart';
-
-class Comment {
-  final String komen;
-  final String user_id;
-  final int post_id;
-
-  Comment({
-    required this.komen,
-    required this.user_id,
-    required this.post_id,
-  });
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(
-      komen: json['komen'],
-      user_id: json['user_id'],
-      post_id: json['post_id'],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    "komen": komen,
-    "user_id": user_id,
-    "post_id": post_id,
-  };
-}
+import "../models/comment.dart";
 
 class ArtikelDetailScreen extends StatefulWidget {
   const ArtikelDetailScreen({Key? key, required this.title, required this.pk})
@@ -49,24 +24,33 @@ class ArtikelArguments {
   ArtikelArguments({required this.pk});
 }
 
-List<Comment> parseComment(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<Comment>((json) => Comment.fromJson(json)).toList();
-}
-
-Future<List<Comment>> fetchComment(dynamic pk) async {
-  final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/artikel/get_comment'));
-  // print(response.body);
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return compute(parseComment, response.body);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load Comment');
+Future<List<Comment>> fetchComment(BuildContext context) async {
+  var args = ModalRoute.of(context)!.settings.arguments as int;
+  String url = "http://127.0.0.1:8000/artikel/get_comment";
+  try {
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    );
+    var data = jsonDecode(utf8.decode(response.bodyBytes));
+    List<Comment> result = [];
+    for (var d in data) {
+      if (d["post_id"] == args + 1) {
+        Comment comments = Comment(
+          komen: d["komen"],
+          user_id: d["user_id"],
+          post_id: d["post_id"],
+        );
+        result.add(comments);
+      }
+    }
+    print(result);
+    return result;
+  } catch (error) {
+    throw Exception("Fetch Failed");
   }
 }
 
@@ -132,7 +116,6 @@ class CommentState extends State<ArtikelDetailScreen> {
   void initState() {
     super.initState();
     futureArtikel = fetchArtikel(widget.pk);
-    futureComment = fetchComment(widget.pk);
     _getState();
   }
 
@@ -345,7 +328,7 @@ class CommentState extends State<ArtikelDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       FutureBuilder(
-                        future: futureComment,
+                        future: fetchComment(context),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
