@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:swab_in/screens/list_lokasi.dart';
+import 'package:swab_in/screens/aboutus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
@@ -94,7 +95,7 @@ class MainDrawerState extends State<MainDrawer> {
             Navigator.of(context).pushReplacementNamed(InfoVaksinScreen.routeName);
           }),
           buildListTile('Tentang', Icons.info, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacementNamed(AboutUsPage.routeName);
           }),
           buildListTile('Lokasi', Icons.place, () {
             Navigator.of(context).pushReplacementNamed(LokasiHomePage.routeName);
