@@ -6,9 +6,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/lokasi.dart';
 import 'package:intl/intl.dart';
+import '../widgets/main_drawer.dart';
 
 class LokasiHomePage extends StatefulWidget {
-  static const routeName = '/forum';
+  static const routeName = '/lokasi';
   const LokasiHomePage({Key? key}) : super(key: key);
 
   @override
@@ -30,6 +31,7 @@ class _LokasiHomePageState extends State<LokasiHomePage> {
       appBar: AppBar(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
           title: Text("Lokasi")),
+          drawer: MainDrawer(),
       body: Card(
         child: FutureBuilder(
             future: futurePost,

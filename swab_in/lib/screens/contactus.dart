@@ -37,7 +37,7 @@ List<Pesan> parsePesan(String responseBody) {
 
 Future<List<Pesan>> fetchPesan() async {
   final response =
-      await http.get(Uri.parse('http://localhost:8000/about/get_pesan'));
+      await http.get(Uri.parse('http://swab-in.herokuapp.com/about/get_pesan'));
   if (response.statusCode == 200) {
     return compute(parsePesan, response.body);
   } else {
