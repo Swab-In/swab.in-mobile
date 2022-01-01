@@ -3,16 +3,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'artikel_detail.dart';
+
 class Artikel {
   String text;
   String author;
   String foto;
+  int pk;
 
-  Artikel({required this.text, required this.author, required this.foto});
+  Artikel(
+      {required this.text,
+      required this.author,
+      required this.foto,
+      required this.pk});
 
   factory Artikel.fromJson(Map<String, dynamic> json) {
     return Artikel(
-        text: json['judul'], author: json['author'], foto: json['foto']);
+        text: json['judul'],
+        author: json['author'],
+        foto: json['foto'],
+        pk: json['pk']);
   }
 }
 
@@ -33,7 +43,7 @@ List<Artikel> parseArtikel(String responseBody) {
 Future<List<Artikel>> fetchArtikel() async {
   final response =
       await http.get(Uri.parse('http://127.0.0.1:8000/artikel/artikel_cards'));
-  print(response.body);
+  // print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -100,7 +110,11 @@ class ArtikelState extends State<ArtikelScreen> {
                               children: <Widget>[
                                 TextButton(
                                   child: const Text('Selengkapnya'),
-                                  onPressed: () {/* ... */},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, ArtikelDetailScreen.routeName,
+                                        arguments: i);
+                                  },
                                 ),
                                 const SizedBox(width: 8),
                               ],

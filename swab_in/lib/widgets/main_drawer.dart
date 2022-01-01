@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swab_in/screens/artikel_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swab_in/screens/artikel_list.dart';
 import 'package:swab_in/screens/komentar_screen.dart';
 import 'package:swab_in/screens/login_screen.dart';
 import 'package:swab_in/screens/main_screen.dart';
@@ -84,50 +84,44 @@ class MainDrawerState extends State<MainDrawer> {
           buildListTile('Home', Icons.home, () {
             Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }),
-          buildListTile('Informasi', Icons.menu_book, () {
+          buildListTile('Swab', Icons.menu_book, () {
             Navigator.of(context)
                 .pushReplacementNamed(InfoSwabScreen.routeName);
-            buildListTile('Swab', Icons.menu_book, () {
-              Navigator.of(context)
-                  .pushReplacementNamed(InfoSwabScreen.routeName);
-            });
-            buildListTile('Vaksin', Icons.menu_book, () {
-              Navigator.of(context)
-                  .pushReplacementNamed(InfoVaksinScreen.routeName);
-            });
-            buildListTile('Tentang', Icons.info, () {
-              Navigator.of(context).pushReplacementNamed('/');
-            });
-            buildListTile('Lokasi', Icons.place, () {
-              Navigator.of(context).pushReplacementNamed('');
-            });
-            buildListTile('Artikel', Icons.article, () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ArtikelScreen.routeName);
-            });
-            buildListTile('Komentar', Icons.comment, () {
-              Navigator.of(context).pushReplacementNamed(
-                  KomentarScreen.routeName,
-                  arguments: KomentarArguments(title: 'asu', pk: "1"));
-            });
-            user == null
-                ? buildListTile('Login', Icons.login, () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(LoginScreen.routeName);
-                  })
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                        SizedBox(height: 15),
-                        Text(
-                          'Howdy, $user!',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            onPressed: logoutUser, child: Text("Log me Out"))
-                      ]);
-          })
+          }),
+          buildListTile('Vaksin', Icons.menu_book, () {
+            Navigator.of(context)
+                .pushReplacementNamed(InfoVaksinScreen.routeName);
+          }),
+          buildListTile('Tentang', Icons.info, () {
+            Navigator.of(context).pushReplacementNamed('/');
+          }),
+          buildListTile('Lokasi', Icons.place, () {
+            Navigator.of(context).pushReplacementNamed('/');
+          }),
+          buildListTile('Artikel', Icons.article, () {
+            Navigator.of(context).pushReplacementNamed(ArtikelScreen.routeName);
+          }),
+          buildListTile('Komentar', Icons.comment, () {
+            Navigator.of(context).pushReplacementNamed(KomentarScreen.routeName,
+                arguments: KomentarArguments(title: 'asu', pk: "1"));
+          }),
+          user == null
+              ? buildListTile('Login', Icons.login, () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(LoginScreen.routeName);
+                })
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                      SizedBox(height: 15),
+                      Text(
+                        'Howdy, $user!',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                          onPressed: logoutUser, child: Text("Log me Out"))
+                    ])
         ],
       ),
     );

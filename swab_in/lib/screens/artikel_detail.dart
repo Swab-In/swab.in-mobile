@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'dart:js';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swab_in/screens/main_screen.dart';
 import "string_extension.dart";
+import "../models/comment.dart";
 
-class CommentScreen extends StatefulWidget {
-  const CommentScreen({Key? key, required this.title, required this.pk})
+class ArtikelDetailScreen extends StatefulWidget {
+  const ArtikelDetailScreen({Key? key, required this.title, required this.pk})
       : super(key: key);
 
   final String title;
@@ -18,43 +20,44 @@ class CommentScreen extends StatefulWidget {
   CommentState createState() => CommentState();
 }
 
-class CommentArguments {
+class ArtikelArguments {
   final String pk;
-  final String judul;
 
-  CommentArguments({required this.pk, required this.judul});
+  ArtikelArguments({required this.pk});
 }
 
-List<Comment> parseComment(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<Comment>((json) => Comment.fromJson(json)).toList();
-}
-
-class Comment {
-  final String comment;
-  final String userId;
-
-  Comment({required this.comment, required this.userId});
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(comment: json['komen'], userId: json['user_id']);
-  }
-}
-
-Future<List<Comment>> fetchComment(dynamic pk) async {
-  final response = await http.get(
-      Uri.parse('http://10.0.2.2:8000/forum/get_comment'),
-      headers: {'pk': pk.toString()});
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return compute(parseComment, response.body);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load Comment');
+Future<List<Comment>> fetchComment(BuildContext context) async {
+  var args = ModalRoute.of(context)!.settings.arguments as int;
+  String url = "http://127.0.0.1:8000/artikel/get_comment";
+  try {
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    );
+    var data = jsonDecode(utf8.decode(response.bodyBytes));
+    print("data: ");
+    print(data);
+    List<Comment> result = [];
+    for (var d in data) {
+      print(d["fields"]["post_id"]);
+      print(args + 1);
+      if (d["fields"]["post_id"] == args + 1) {
+        print(args + 1);
+        Comment comments = Comment(
+            komen: d["fields"]["komen"],
+            user_id: d["fields"]["user_id"],
+            post_id: d["fields"]["post_id"]);
+        result.add(comments);
+      }
+    }
+    print("result: ");
+    print(result);
+    return result;
+  } catch (error) {
+    throw Exception("Fetch Failed");
   }
 }
 
@@ -87,8 +90,8 @@ List<Artikel> parseArtikel(String responseBody) {
 
 Future<List<Artikel>> fetchArtikel(dynamic pk) async {
   final response = await http.get(
-      Uri.parse('http://10.0.2.2:8000/artikel/get_artikel'),
-      headers: {'pk': pk.toString()});
+      Uri.parse('http://127.0.0.1:8000/artikel/artikel_cards'),
+      headers: {'pk': pk});
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -101,7 +104,7 @@ Future<List<Artikel>> fetchArtikel(dynamic pk) async {
   }
 }
 
-class KomentarState extends State<CommentScreen> {
+class CommentState extends State<ArtikelDetailScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Widget> listW = [];
   late Future<List<Artikel>> futureArtikel;
@@ -120,16 +123,16 @@ class KomentarState extends State<CommentScreen> {
   void initState() {
     super.initState();
     futureArtikel = fetchArtikel(widget.pk);
-    futureComment = fetchComment(widget.pk);
     _getState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final pk_artikel = ModalRoute.of(this.context)!.settings.arguments as int;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text("Artikel Swab.In"),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context)
@@ -147,7 +150,7 @@ class KomentarState extends State<CommentScreen> {
                     future: futureArtikel,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Image.network(snapshot.data![0].foto);
+                        return Image.network(snapshot.data![pk_artikel].foto);
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       } else {
@@ -161,9 +164,6 @@ class KomentarState extends State<CommentScreen> {
                 Container(
                   decoration: BoxDecoration(color: Color(0xff7c94b6)),
                   margin: const EdgeInsets.only(top: 25, bottom: 5),
-                  child: const Text("Coba-coba",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
                 ),
                 Container(
                   padding: const EdgeInsets.only(bottom: 20),
@@ -174,7 +174,11 @@ class KomentarState extends State<CommentScreen> {
                         future: futureArtikel,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(snapshot.data![0].judul);
+                            return Text(
+                              snapshot.data![pk_artikel].judul,
+                              style: const TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w600),
+                            );
                           } else if (snapshot.hasError) {
                             return Text('${snapshot.error}');
                           } else {
@@ -189,10 +193,32 @@ class KomentarState extends State<CommentScreen> {
                         future: futureArtikel,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            String author = snapshot.data![0].author;
+                            String author = snapshot.data![pk_artikel].author;
                             return Text("Ditulis oleh: $author",
                                 style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600));
+                                    fontSize: 18, fontWeight: FontWeight.w400));
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+
+                          // By default, show a loading spinner.
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      FutureBuilder<List<Artikel>>(
+                        future: futureArtikel,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data![pk_artikel].isi,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              textAlign: TextAlign.left,
+                            );
                           } else if (snapshot.hasError) {
                             return Text('${snapshot.error}');
                           } else {
@@ -205,94 +231,94 @@ class KomentarState extends State<CommentScreen> {
                     ],
                   ),
                 ),
-                Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                            controller: commentController,
-                            decoration: const InputDecoration(
-                                hintText: "Masukkan comment anda")),
-                        Container(
-                            alignment: Alignment.bottomRight,
-                            margin: const EdgeInsets.only(top: 10, bottom: 10),
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  if (commentController.text.isNotEmpty) {
-                                    await http
-                                        .post(
-                                          Uri.parse(
-                                              'http://10.0.2.2:8000/artikel/komentar_post'),
-                                          headers: <String, String>{
-                                            'Content-Type':
-                                                'application/json; charset=UTF-8',
-                                          },
-                                          body: jsonEncode(<String, dynamic>{
-                                            'comment': commentController.text,
-                                            'post_id': widget.pk,
-                                            'user_id': 1
-                                          }),
-                                        )
-                                        .then((value) => {
-                                              setState(() {
-                                                commentController.clear();
-                                                List<Comment> lst =
-                                                    parseComment(value.body);
-                                                firstfetch = false;
-                                                list.add(Container(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        lst[0].userId,
-                                                        style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 10),
-                                                      Text(lst[0].comment),
-                                                    ],
-                                                  ),
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 10, 0, 10),
-                                                ));
-                                              }),
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24)),
-                                                    content: const Text(
-                                                        'Komentar berhasil ditambahkan')),
-                                              )
-                                            });
-                                  }
-                                },
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 7, 5, 7),
-                                  child: const Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ))),
-                      ],
-                    )),
+                // Form(
+                //     key: _formKey,
+                //     child: Column(
+                //       children: [
+                //         TextFormField(
+                //             controller: commentController,
+                //             decoration: const InputDecoration(
+                //                 hintText: "Masukkan comment anda")),
+                //         Container(
+                //             alignment: Alignment.bottomRight,
+                //             margin: const EdgeInsets.only(top: 10, bottom: 10),
+                //             child: ElevatedButton(
+                //                 onPressed: () async {
+                //                   if (commentController.text.isNotEmpty) {
+                //                     await http
+                //                         .post(
+                //                           Uri.parse(
+                //                               'http://localhost:8000/artikel/comment_post'),
+                //                           headers: <String, String>{
+                //                             'Content-Type':
+                //                                 'application/json; charset=UTF-8',
+                //                           },
+                //                           body: jsonEncode(<String, dynamic>{
+                //                             'comment': commentController.text,
+                //                             'post_id': widget.pk,
+                //                             'user_id': 1,
+                //                           }),
+                //                         )
+                //                         .then((value) => {
+                //                               setState(() {
+                //                                 commentController.clear();
+                //                                 // List<Comment> lst =
+                //                                 // parseComment(value.body);
+                //                                 firstfetch = false;
+                //                                 list.add(Container(
+                //                                   child: Column(
+                //                                     crossAxisAlignment:
+                //                                         CrossAxisAlignment
+                //                                             .start,
+                //                                     children: <Widget>[
+                //                                       // Text(
+                //                                       //   // lst[0].userId,
+                //                                       //   style: const TextStyle(
+                //                                       //     fontSize: 18,
+                //                                       //     fontWeight:
+                //                                       //         FontWeight.w600,
+                //                                       //   ),
+                //                                       // ),
+                //                                       const SizedBox(
+                //                                           height: 10),
+                //                                       // Text(lst[0].comment),
+                //                                     ],
+                //                                   ),
+                //                                   padding:
+                //                                       const EdgeInsets.fromLTRB(
+                //                                           0, 10, 0, 10),
+                //                                 ));
+                //                               }),
+                //                               ScaffoldMessenger.of(context)
+                //                                   .showSnackBar(
+                //                                 SnackBar(
+                //                                     behavior: SnackBarBehavior
+                //                                         .floating,
+                //                                     shape:
+                //                                         RoundedRectangleBorder(
+                //                                             borderRadius:
+                //                                                 BorderRadius
+                //                                                     .circular(
+                //                                                         24)),
+                //                                     content: const Text(
+                //                                         'Komentar berhasil ditambahkan')),
+                //                               )
+                //                             });
+                //                   }
+                //                 },
+                //                 child: Container(
+                //                   padding:
+                //                       const EdgeInsets.fromLTRB(5, 7, 5, 7),
+                //                   child: const Text(
+                //                     "Submit",
+                //                     style: TextStyle(
+                //                       fontSize: 20,
+                //                       fontWeight: FontWeight.w600,
+                //                     ),
+                //                   ),
+                //                 ))),
+                //       ],
+                //     )),
                 const Text(
                   "Komentar :",
                   style: TextStyle(
@@ -309,8 +335,9 @@ class KomentarState extends State<CommentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       FutureBuilder<List<Comment>>(
-                        future: futureComment,
-                        builder: (context, snapshot) {
+                        future: fetchComment(context),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
                             if (firstfetch) {
                               for (int i = 0; i < snapshot.data!.length; i++) {
@@ -320,14 +347,14 @@ class KomentarState extends State<CommentScreen> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        snapshot.data![i].userId,
+                                        snapshot.data![i].user_id,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       const SizedBox(height: 10),
-                                      Text(snapshot.data![i].comment),
+                                      Text(snapshot.data![i].komen),
                                     ],
                                   ),
                                   padding:
@@ -344,8 +371,6 @@ class KomentarState extends State<CommentScreen> {
                           } else {
                             return const CircularProgressIndicator();
                           }
-
-                          // By default, show a loading spinner.
                         },
                       ),
                     ],

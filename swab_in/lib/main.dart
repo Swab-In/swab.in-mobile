@@ -11,6 +11,7 @@ import './screens/info_swab_screen.dart';
 import './screens/add_experience_swab_screen.dart';
 import './screens/info_vaksin_screen.dart';
 import './screens/add_experience_vaksin_screen.dart';
+import 'screens/artikel_detail.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,6 +42,8 @@ class _MyAppState extends State<MyApp> {
         AddExperienceVaksinScreen.routeName: (context) =>
             const AddExperienceVaksinScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
+        ArtikelDetailScreen.routeName: (context) =>
+            const ArtikelDetailScreen(pk: 'pk', title: 'title'),
       },
       onGenerateRoute: (settings) {
         if (settings.name == KomentarScreen.routeName) {
