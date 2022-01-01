@@ -20,7 +20,7 @@ class Forum {
   });
 
   factory Forum.fromJson(Map<String, dynamic> json) => Forum(
-      writer: json["writer"],
+      writer: json["fields"]["writer"],
       image: json["fields"]["image"],
       title: json["fields"]["title"],
       message: json["fields"]["message"],

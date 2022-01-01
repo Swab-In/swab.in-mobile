@@ -11,8 +11,7 @@ class AboutUs extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-      ),
-      home: AboutUsPage(),
+      ),      
     );
   }
 }
@@ -29,6 +28,9 @@ class _AboutUsState extends State<AboutUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color.fromRGBO(79, 133, 235, 1),
+          title: Text("About Us")),
       drawer: MainDrawer(),
       body: SafeArea(
         child: Padding(

@@ -58,10 +58,13 @@ class ListForumHomePageState extends State<ListForumHomePage> {
               message: d["fields"]["message"],
               pk: d["pk"]);
           result.add(forums);
+          print(forums);
         }
       }
+      print(result);
       return result;
     } catch (error) {
+      print("B");
       print(error);
       throw Exception("Gagal difetch");
     }
@@ -106,7 +109,6 @@ class ListForumHomePageState extends State<ListForumHomePage> {
       appBar: AppBar(
           backgroundColor: Color.fromRGBO(79, 133, 235, 1),
           title: Text("Forum")),
-      drawer: MainDrawer(),
       body: Container(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -132,14 +134,14 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: 180.0,
-                                          child: Ink.image(
-                                            image: NetworkImage(snapshot
-                                                .data[index].lokasi_pic),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                        // SizedBox(
+                                        //   height: 180.0,
+                                        //   child: Ink.image(
+                                        //     image: NetworkImage(snapshot
+                                        //         .data[index].lokasi_pic),
+                                        //     fit: BoxFit.cover,
+                                        //   ),
+                                        // ),
                                         Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 8.0),
@@ -199,14 +201,14 @@ class ListForumHomePageState extends State<ListForumHomePage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: 180.0,
-                                          child: Ink.image(
-                                            image: NetworkImage(
-                                                snapshot.data[index].image),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                        // SizedBox(
+                                        //   height: 180.0,
+                                        //   child: Ink.image(
+                                        //     image: NetworkImage(
+                                        //         snapshot.data[index].image),
+                                        //     fit: BoxFit.cover,
+                                        //   ),
+                                        // ),
                                         Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 8.0),
