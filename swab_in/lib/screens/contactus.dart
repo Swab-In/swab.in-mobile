@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:swab_in/models/pesan.dart';
+
 import '../widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +30,21 @@ class FormScreen extends StatefulWidget {
   FormScreenState createState() => FormScreenState();
 }
 
+List<Pesan> parsePesan(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<Pesan>((json) => Pesan.fromJson(json)).toList();
+}
+
+Future<List<Pesan>> fetchPesan() async {
+  final response =
+      await http.get(Uri.parse('http://localhost:8000/about/get_pesan'));
+  if (response.statusCode == 200) {
+    return compute(parsePesan, response.body);
+  } else {
+    throw Exception("Failed to load Pesan");
+  }
+}
+
 // Create a corresponding State class.
 // This class holds data related to the form.
 class FormScreenState extends State<FormScreen> {
@@ -36,11 +54,18 @@ class FormScreenState extends State<FormScreen> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<FormScreenState>.
   final _formKey = GlobalKey<FormState>();
+  late Future<List<Pesan>> futurePesan;
   TextEditingController namaDepanKontroler = TextEditingController();
   TextEditingController namaBelakangKontroler = TextEditingController();
   TextEditingController emailKontroler = TextEditingController();
   TextEditingController noHPKontroler = TextEditingController();
   TextEditingController pesanKontroler = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    futurePesan = fetchPesan();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +77,7 @@ class FormScreenState extends State<FormScreen> {
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             TextFormField(
               controller: namaDepanKontroler,
               decoration: InputDecoration(labelText: 'First Name'),
@@ -141,7 +166,62 @@ class FormScreenState extends State<FormScreen> {
                       namaBelakangKontroler.clear(),
                       emailKontroler.clear(),
                       noHPKontroler.clear(),
-                      pesanKontroler.clear()
+                      pesanKontroler.clear(),
+                      FutureBuilder<List<Pesan>>(
+                          future: futurePesan,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data![0].first);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
+                      FutureBuilder<List<Pesan>>(
+                          future: futurePesan,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data![0].last);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
+                      FutureBuilder<List<Pesan>>(
+                          future: futurePesan,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data![0].email);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
+                      FutureBuilder<List<Pesan>>(
+                          future: futurePesan,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data![0].no_hp);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
+                      FutureBuilder<List<Pesan>>(
+                          future: futurePesan,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data![0].message);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
                     }
                 },
                 child: const Text('Submit'),
